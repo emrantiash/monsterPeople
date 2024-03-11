@@ -39,7 +39,7 @@ export default function BasicInfo() {
   const [workMobileError, setWorkMobileError] = useState(false);
   const [personalEmailError, setPersonalEmailError] = useState(false);
   const [officeEMailError, setOfficeEMailError] = useState(false);
-  const [nidError,setNidError] = useState([false])
+  const [nidError,setNidError] = useState(false)
   const [isSubmit, setIsSubmit] = useState(false);
   const [gender, setGender] = useState([]);
   const [maritalStatus, setMaritalStatus] = useState([]);
@@ -91,9 +91,10 @@ export default function BasicInfo() {
       }
     }
     if(name=="nid"){
-      if(isNaN(value)){
-        setNidError(true)
-      }
+        setNidError(false)
+      // if(isNaN(value)){
+      //   setNidError(true)
+      // }
     }
     setUserField({
       ...userField,
@@ -191,7 +192,7 @@ export default function BasicInfo() {
         gender: parseInt(selectedGender),
         maritalStatus: parseInt(selectedMaritalStatus),
         country: parseInt(selectedEthnicity),
-        dateOfBirth: '2000-03-06T05:42:43.433Z',//userField.dateOfBirth,
+        dateOfBirth: userField.dateOfBirth,
         nid: userField.nid,
         presentAddress: userField.presentAddress,
         permanentAddress: userField.permanentAddress,
@@ -201,10 +202,11 @@ export default function BasicInfo() {
         officeEMail: userField.officeEMail,
         isPortalAccessEnabled: isPortalAccessEnabled,
         isUserStatutory: isUserStatutory,
-        profilePictureURL: "/a/b", // imagePath
+        profilePictureURL: imagePath
       };
 
       let name = options.firstName + ' ' + options.middleName + '' + options.lastName
+      console.log(options)
       dispatch(postEmployeeBasicInfo(options)).then(function(e){
         if(e.payload && e.payload.success){
           // console.log(e.payload.payload[0])

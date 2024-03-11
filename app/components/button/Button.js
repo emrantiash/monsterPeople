@@ -6,7 +6,7 @@ const Button = (props) => {
     <div>
       <button
         // className="btn btn-user btn-block btn-danger"
-        type="button"
+        type={props.file ? "file" :"button"}
         className={props.class}
 
         onClick={props.onclick}

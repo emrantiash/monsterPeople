@@ -7,7 +7,7 @@ import {
   changeEditStatus,
   getAllEmployee,
   changeEmployeeRoll,
-  storeThisEmoployeeId
+  storeThisEmoployeeId,
 } from "../redux/slices/employeeSlice";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -16,7 +16,7 @@ import Button from "../components/button/Button";
 import peopleImage from "../assets/img/people/Frame.svg";
 import styles from "./people.style";
 
-const _maxValue = 4 
+const _maxValue = 3;
 
 const people = [
   {
@@ -64,7 +64,7 @@ export default function Page() {
   const [dataset, setDataset] = useState([]);
   const [length, setLength] = useState(0);
 
-   const employee = useSelector((state) => state.employeeReducer.data);
+  const employee = useSelector((state) => state.employeeReducer.data);
 
   // console.log(employee);
 
@@ -87,31 +87,27 @@ export default function Page() {
     router.push("/people/add", { scroll: false });
   };
 
-  const _keepStageInfo = (stage,id,name) => {
+  const _keepStageInfo = (stage, id, name) => {
     console.log(stage);
 
-    dispatch(storeThisEmoployeeId([id,name]))
-   
-     let i  ;let j;
-    for(i=0;i<=stage-1;i++)
-     {
-      console.log(i)
-      dispatch(changeEmployeeRoll([i, true]));
-     }
-     let ii ;
-     for(ii=stage;ii<=4;ii++)
-     {
-      console.log(ii)
-      dispatch(changeEmployeeRoll([ii, false]));
-     }
-    
-    
+    dispatch(storeThisEmoployeeId([id, name]));
 
-     switchEditStatus(true);
+    let i;
+    let j;
+    for (i = 0; i <= stage - 1; i++) {
+      console.log(i);
+      dispatch(changeEmployeeRoll([i, true]));
+    }
+    let ii;
+    for (ii = stage; ii <= 4; ii++) {
+      console.log(ii);
+      dispatch(changeEmployeeRoll([ii, false]));
+    }
+
+    switchEditStatus(true);
   };
   function switchEditStatus(_val) {
     dispatch(changeEditStatus(_val));
-   
   }
 
   return (
@@ -156,14 +152,14 @@ export default function Page() {
 
           <div className="container-fluid">
             {/* <!-- Page Heading --> */}
-            <h1 className="h3 mb-2 text-gray-800">Tables</h1>
+            <h1 className="h3 mb-2 text-gray-800"></h1>
             <p className="mb-4">
-              DataTables is a third party plugin that is used to generate the
+              {/* DataTables is a third party plugin that is used to generate the
               demo table below. For more information about DataTables, please
-              visit the{" "}
-              <a target="_blank" href="https://datatables.net">
+              visit the{" "} */}
+              {/* <a target="_blank" href="https://datatables.net">
                 official DataTables documentation
-              </a>
+              </a> */}
               .
             </p>
 
@@ -171,33 +167,33 @@ export default function Page() {
             <div className="card shadow mb-4">
               <div className="card-header py-3">
                 <h6 className="m-0 font-weight-bold text-primary">
-                  DataTables Example
+                  Employee Table
                 </h6>
               </div>
               <div className="card-body">
                 <div className="table-responsive">
                   {
-                    // Array.isArray(dataset) && dataset.length > 0 && 
-                  
-                  <table
-                    className="table table-bordered"
-                    id="dataTable"
-                    width="100%"
-                    cellSpacing="0"
-                  >
-                    <thead>
-                      <tr>
-                        <th>Sl.</th>
-                        <th>Emp#</th>
-                        <th>Emp Information</th>
-                        <th>Contact</th>
-                        <th>Division</th>
-                        <th>Location</th>
-                        <th>Reporting to</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    {/* <tfoot>
+                    // Array.isArray(dataset) && dataset.length > 0 &&
+
+                    <table
+                      className="table table-bordered"
+                      id="dataTable"
+                      width="100%"
+                      cellSpacing="0"
+                    >
+                      <thead>
+                        <tr>
+                          <th>Sl.</th>
+                          <th>Emp#</th>
+                          <th>Emp Information</th>
+                          <th>Contact</th>
+                          <th>Division</th>
+                          <th>Location</th>
+                          <th>Reporting to</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      {/* <tfoot>
                       <tr>
                       <th>Sl.</th>
                         <th>Emp#</th>
@@ -209,72 +205,91 @@ export default function Page() {
                         <th>Action</th>
                       </tr>
                     </tfoot> */}
-                    <tbody>
-                      {Array.isArray(employee) && employee.map((data, index) => (
-                        <tr className="text-table" key={index}>
-                          <td>{index+1}</td>
-                          <td>{data.employeeCode}</td>
-                          <td>
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                              }}
-                            >
-                              <div
+                      <tbody>
+                        {Array.isArray(employee) &&
+                          employee.map((data, index) => (
+                            <tr className="text-table" key={index}>
+                              <td>{index + 1}</td>
+                              <td>{data.employeeCode}</td>
+                              <td>
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    // justifyContent: "space-between",
+                                    // alignItems: "center",
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "column",
+                                    }}
+                                  >
+                                    <div className="font-weight-bold text-primary">
+                                      {data.fullName}
+                                    </div>
+                                    <div>{data.designation}</div>
+                                    <div>{data.department}</div>
+                                  </div>
+                                  {data.stage < _maxValue && (
+                                    <Link
+                                      href="/people/add"
+                                      onClick={() =>
+                                        _keepStageInfo(
+                                          data.stage,
+                                          data.employeeId,
+                                          data.fullName
+                                        )
+                                      }
+                                    >
+                                      {/* <i className="fas fa-info-circle fa-x"></i> */}
+                                      <div className="progress">
+                                        <div
+                                          className="progress-bar"
+                                          role="progressbar"
+                                          style= {{width: (Math.round(data.stage*100/_maxValue)) +"%" }}
+                                          aria-valuenow="25"
+                                          aria-valuemin="0"
+                                          aria-valuemax="100"
+                                        >
+                                          {Math.round(data.stage*100/_maxValue)}%
+                                        </div>
+                                      </div>
+                                    </Link>
+                                  )}
+                                </div>
+
+                                {/* {data.designation} </td> */}
+                              </td>
+                              <td>
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                  }}
+                                ></div>
+
+                                <div>{data.workEmail}</div>
+                                <div>{data.workContact}</div>
+                              </td>
+                              <td>{data.division}</td>
+                              <td>{data.location}</td>
+                              <td>{data.reportingTo}</td>
+                              <td
                                 style={{
-                                  display: "flex",
-                                  flexDirection: "column",
+                                  // display: "flex",
+                                  // justifyContent: "center",
+                                  alignItems: "center",
+                                  cursor: "pointer",
                                 }}
                               >
-                                <div className="font-weight-bold text-primary">
-                                  {data.fullName}
-                                </div>
-                                <div>{data.designation}</div>
-                                <div>{data.department}</div>
-                              </div>
-                              {data.stage < _maxValue && (
-                                <Link
-                                  href="/people/add"
-                                  onClick={() => _keepStageInfo(data.stage,data.employeeId,data.fullName)}
-                                >
-                                  <i className="fas fa-info-circle fa-x"></i>
-                                </Link>
-                              )}
-                            </div>
-
-                            {/* {data.designation} </td> */}
-                          </td>
-                          <td>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            ></div>
-
-                            <div>{data.workEmail}</div>
-                            <div>{data.workContact}</div>
-                          </td>
-                          <td>{data.division}</td>
-                          <td>{data.location}</td>
-                          <td>{data.reportingTo}</td>
-                          <td
-                            style={{
-                              
-                              // display: "flex",
-                              // justifyContent: "center",
-                              alignItems : 'center',
-                              cursor: "pointer",
-                            }}
-                          >
-                            <i className="fas fa-ellipsis-h"></i>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                                <i className="fas fa-ellipsis-h"></i>
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
                   }
                 </div>
               </div>

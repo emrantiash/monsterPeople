@@ -34,9 +34,9 @@ export default function page() {
       <div style={styles.body}>
         {
          Array.isArray(status) && !status[0] ?
-          <JobDetails /> 
-        // <Documents />
-              // <BasicInfo />
+          // <JobDetails /> 
+        //  <Documents />
+              <BasicInfo />
           :
           Array.isArray(status) && status[0] && !status[1] ?
           <JobDetails /> 

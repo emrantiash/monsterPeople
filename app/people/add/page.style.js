@@ -3,7 +3,7 @@ import commonStyle from "@/app/components/style/Styles";
 const styles = {
     containerHeader : {
         display : 'flex',
-        justifyContent : 'center',
+        justifyContent : 'fle',
         alignItems : 'center',
         flexDirection : 'column'
     },
@@ -77,7 +77,8 @@ const styles = {
     },
     buttonGroup : {
         display : 'flex',
-        flexDirection : 'row'
+        flexDirection : 'row',
+        justifyContent : 'center'
     },
     justifyLabel : {
         display : 'flex',
@@ -110,7 +111,19 @@ const styles = {
     },
     bigBottom : {
         marginBottom : 30 
-    }
+    },
+    documentMergin : {
+        //  backgroundColor : 'green',
+        // marginTop: 60,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+        height: 200,
+      },
+      docBox : {
+        marginBottom :10
+      }
     
 }
 
