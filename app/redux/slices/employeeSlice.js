@@ -38,6 +38,7 @@ export const imageUpload = createAsyncThunk("upload-image", async (data) => {
   }
 });
 
+
 const initialStateValues = {
   data: [],
   errro: false,
@@ -45,7 +46,8 @@ const initialStateValues = {
   _value: [false, false, false, false, false],
   empStatus: [false, false, false, false, false],
   edit: false,
-  thisEmployee : 0
+  thisEmployeeId : 0,
+  thisEmployeeName : ""
   // employee: [
   //   {
   //     id: 1,
@@ -84,7 +86,9 @@ export const employeeSlice = createSlice({
       state.empStatus[action.payload[0]] = action.payload[1];
     },
     storeThisEmoployeeId: (state, action) => {
-      state.thisEmployee = action.payload
+      console.log(action.payload)
+      state.thisEmployeeId = action.payload[0],
+      state.thisEmployeeName = action.payload[1]
     },
   },
   extraReducers: (builder) => {
@@ -94,7 +98,7 @@ export const employeeSlice = createSlice({
 
     builder.addCase(getEmployee.fulfilled, (state, action) => {
       (state.isLoading = false),
-        (state.data = action.payload.payload[0].content);
+        (state.data = action.payload.payload[0]);
     });
 
     builder.addCase(getEmployee.rejected, (state, action) => {

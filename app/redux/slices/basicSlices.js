@@ -37,6 +37,25 @@ export const getMaritalStatus = createAsyncThunk('get-married-ststus', async () 
   
   })
 
+  export const getEmployeeType = createAsyncThunk("get-employee-type", async () => {
+    try {
+      const response = await get(Endpoint.getEmployeeType);
+      return response.data;
+    } catch (error) {
+      return error.response.data;
+    }
+  });
+
+  export const getWorkLocation = createAsyncThunk("get-work-location", async () => {
+    try {
+      const response = await get(Endpoint.getWorkLocation);
+      return response.data;
+    } catch (error) {
+      return error.response.data;
+    }
+  });
+  
+
 const initialStateValues = {
   data : []
 

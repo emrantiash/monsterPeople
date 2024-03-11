@@ -32,7 +32,6 @@ export const divisionSlice = createSlice({
 
   reducers: {
     getDepartment: (state,action) => {
-        console.log(action.payload)
         state.selectedDivision = action.payload
      state.department = (state.data.filter(item => item.divisionId == action.payload))
     }

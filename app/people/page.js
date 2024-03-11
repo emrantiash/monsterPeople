@@ -7,6 +7,7 @@ import {
   changeEditStatus,
   getAllEmployee,
   changeEmployeeRoll,
+  storeThisEmoployeeId
 } from "../redux/slices/employeeSlice";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -75,8 +76,8 @@ export default function Page() {
 
   useEffect(() => {
     dispatch(getEmployee()).then(function (e) {
-      e.payload && e.payload.success && setDataset(e.payload.payload[0].content);
-      setLength(e.payload && e.payload.payload[0].content.length);
+      e.payload && e.payload.success && setDataset(e.payload.payload[0]);
+      setLength(e.payload && e.payload.payload[0].length);
     });
   }, [dispatch]);
   console.log(dataset);
@@ -86,8 +87,10 @@ export default function Page() {
     router.push("/people/add", { scroll: false });
   };
 
-  const _keepStageInfo = (stage) => {
+  const _keepStageInfo = (stage,id,name) => {
     console.log(stage);
+
+    dispatch(storeThisEmoployeeId([id,name]))
    
      let i  ;let j;
     for(i=0;i<=stage-1;i++)
@@ -194,7 +197,7 @@ export default function Page() {
                         <th>Action</th>
                       </tr>
                     </thead>
-                    <tfoot>
+                    {/* <tfoot>
                       <tr>
                       <th>Sl.</th>
                         <th>Emp#</th>
@@ -205,7 +208,7 @@ export default function Page() {
                         <th>Reporting to</th>
                         <th>Action</th>
                       </tr>
-                    </tfoot>
+                    </tfoot> */}
                     <tbody>
                       {Array.isArray(employee) && employee.map((data, index) => (
                         <tr className="text-table" key={index}>
@@ -234,7 +237,7 @@ export default function Page() {
                               {data.stage < _maxValue && (
                                 <Link
                                   href="/people/add"
-                                  onClick={() => _keepStageInfo(data.stage)}
+                                  onClick={() => _keepStageInfo(data.stage,data.employeeId,data.fullName)}
                                 >
                                   <i className="fas fa-info-circle fa-x"></i>
                                 </Link>

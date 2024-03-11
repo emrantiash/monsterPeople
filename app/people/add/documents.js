@@ -6,13 +6,34 @@ import Button from "@/app/components/button/Button";
 
 export default function Documents() {
   const dispatch = useDispatch();
+  const thisEmployeeName = useSelector((state)=>state.employeeReducer.thisEmployeeName)
 
   const _submit = () => {};
   return (
     <main>
+      <div className="row">
+        <div className="col-4"></div>
+        <div className="col-5">
+        <div className="text-table font-weight-normal" style={{
+            color : 'green',
+            marginBottom :10 ,
+            display : 'flex',
+            justifyContent : 'flex-end',
+            // backgroundColor : 'red',
+            marginLeft : 20 ,
+            alignItems : 'center'
+          }}>
+         <div style={{color:'orange'}}><i className="fas fa-user"></i></div>  &nbsp; {thisEmployeeName}
+          </div>
+        </div>
+      </div>
+      
       <div style={{ ...styles.containerHeader }}>
+        
         <div className="row" style={{ backgroundColor: "" }}>
           <div className="col-md-12">
+         
+            
             <div
               style={{
                 marginTop: 60,

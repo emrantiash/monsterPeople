@@ -11,7 +11,7 @@ export default function  getHeaderFunction(){
 
   try {
     // const decrypted = CryptoJS.AES.decrypt(cookieCutter.get(cookiesNames.HOW_THIS_MEASUREMENT_IS), process.env.NEXT_PUBLIC_TITLE).toString(Utf8);
-     const decrypted = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XHJcbiAgXCJ1c2VyTmFtZVwiIDogXCJ0aWFzaEBhZG1pbi5jb21cIixcclxuICBcImVtcGxveWVlSWRcIiA6IDIsXHJcbiAgXCJjb21wSWRcIiA6IDEsXHJcbiAgXCJzdWJDb21wSWRcIiA6IDEsXHJcbiAgXCJyb2xlXCIgOiBcImFkbWluXCIsXHJcbiAgXCJhdXRob3JpdGllc1wiIDogWyBdXHJcbn0iLCJpYXQiOjE3MDk4NzgyNjIsImV4cCI6MTc3MDM1ODI2Mn0.X2WFqO37eyGGYC2vm_eHKP5DphRNrBn95llT33Z18URCiFcyse3Pt0DPx_A9tfmHpCOQHGbDyVNow3iv0mHV8Q'
+     const decrypted = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XHJcbiAgXCJ1c2VyTmFtZVwiIDogXCJ0aWFzaEBhZG1pbi5jb21cIixcclxuICBcImVtcGxveWVlSWRcIiA6IDIsXHJcbiAgXCJjb21wSWRcIiA6IDEsXHJcbiAgXCJzdWJDb21wSWRcIiA6IDEsXHJcbiAgXCJyb2xlXCIgOiBcImFkbWluXCIsXHJcbiAgXCJhdXRob3JpdGllc1wiIDogWyBdXHJcbn0iLCJpYXQiOjE3MDk4OTM3MjEsImV4cCI6MTc3MDM3MzcyMX0.d4dKyNFGHI0tV8Wc7WmoNo5dGBuwAWfTxHhCXivpuVRL-9LjwpSfuPUzSpVxyVjLjTgrU3r7Ey5avicf2CWi0g'
     const
       headers = {
         Authorization: 'Bearer ' + decrypted,

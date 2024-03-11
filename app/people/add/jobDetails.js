@@ -6,6 +6,7 @@ import {
   getDesignationList,
 } from "@/app/redux/slices/employeeSlice";
 import { getDivision, getDepartment } from "@/app/redux/slices/divisionSlices";
+import { getEmployeeType,getWorkLocation } from "@/app/redux/slices/basicSlices";
 import Label from "@/app/components/label/Label";
 import Input from "@/app/components/input/Input";
 import Select from "@/app/components/select/Select";
@@ -38,16 +39,38 @@ const black = true;
 export default function JobDetails() {
   const dispatch = useDispatch();
   const [designation, setDesignation] = useState([]);
+  const [employeeType,setEmployeeType] = useState([])
+  const [workLocation,setWorkLocation] = useState([])
   const data = useSelector((state) => state.divisionReducer.data);
-  const [selectedDivision,setSelectedDivision] = useState(0)
+  const [selectedType, setSelectedType] = useState(0);
+  const [selectedDepartment, setSelectedDepartment] = useState(0);
+  const [selectedDivision, setSelectedDivision] = useState(0);
+  const [selectedWorkLocation, setSelectedWorkLocation] = useState(0);
+  const [selectedDesignation, setSelectedDesignation] = useState(0);
+  const thisEmployeeName = useSelector((state)=>state.employeeReducer.thisEmployeeName)
+  const thisEmployeeID = useSelector((state)=>state.employeeReducer.thisEmployeeId)
   const division = useSelector((state) => state.divisionReducer.division);
-  const department = useSelector(
-    (state) => state.divisionReducer.department[0].departmentList
-  );
+  const department = useSelector((state) => state.divisionReducer.department[0].departmentList);
+  const [userField, setUserField] = useState({
+    dateOfJoining : "",
+    confirmationDate : "",
+   
+  });
 
+  console.log(employeeType)
 
   useEffect(() => {
     dispatch(getDivision());
+    dispatch(getEmployeeType()).then(function(e){
+      e.payload && e.payload.success
+        ? setEmployeeType(e.payload.payload[0])
+        : setEmployeeType([]);
+    })
+    dispatch(getWorkLocation()).then(function(e){
+      e.payload && e.payload.success
+        ? setWorkLocation(e.payload.payload[0])
+        : setWorkLocation([]);
+    })
     dispatch(getDesignationList()).then(function (e) {
       e.payload && e.payload.success
         ? setDesignation(e.payload.payload[0])
@@ -56,13 +79,20 @@ export default function JobDetails() {
   }, [dispatch]);
 
   const _getDepartmentName = (e) => {
-    console.log(e.target.value);
-    setSelectedDivision(e.target.value)
+    setSelectedDivision(e.target.value);
     dispatch(getDepartment(e.target.value));
   };
 
-  const _saveDepartment =(e) =>{
-    console.log(e.target.value)
+  const _saveDepartment = (e) => {
+    setSelectedDepartment(e.target.value);
+  };
+
+  const _saveWorkLocation = (e) =>{
+    setSelectedWorkLocation(e.target.value)
+  }
+
+  const _saveDesignation = (e) =>{
+    setSelectedDesignation(e.target.value)
   }
 
   const _submit = () => {
@@ -73,6 +103,19 @@ export default function JobDetails() {
       <div className="row" style={styles.bobyInnerRow}>
         <div className="col-md-3" style={{ backgroundColor: "" }}></div>
         <div className="col-md-8" style={{ backgroundColor: "" }}>
+        <div className="row">
+       
+        <div className="col-12" style={{ backgroundColor: "" }}>
+          <div className="text-table font-weight-normal" style={{
+            color : 'green',
+            marginBottom :10 ,
+            display : 'flex',
+            flexDirection : 'row'
+          }}>
+          <div style={{color:'orange'}}><i className="fas fa-user"></i></div> &nbsp; {thisEmployeeName}
+          </div>
+        </div>
+      </div>
           <div className="row" style={styles.bobyInnerRow}>
             <div className="col-md-4">
               <Label title="Employee ID" />
@@ -80,7 +123,7 @@ export default function JobDetails() {
             </div>
             <div className="col-md-4">
               <Label title="Employee Type" />
-              <Select placement />
+              <Select placement data={employeeType} />
             </div>
           </div>
           <div className="row" style={styles.bobyInnerRow}>
@@ -106,7 +149,7 @@ export default function JobDetails() {
           <div className="row" style={styles.bobyInnerRow}>
             <div className="col-md-4">
               <Label title="Work Location" />
-              <Select placement />
+              <Select placement  data={workLocation} onchange={_saveWorkLocation} />
             </div>
             {/* <div className="col-md-4">
               <Label title="Contract Type" />
@@ -114,7 +157,7 @@ export default function JobDetails() {
             </div> */}
             <div className="col-md-4">
               <Label title="Designation" />
-              <Select placement data={designation} />
+              <Select placement data={designation} onchange={_saveDesignation} />
             </div>
           </div>
           <div className="row" style={styles.bobyInnerRow}>

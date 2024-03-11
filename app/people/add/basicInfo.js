@@ -39,13 +39,14 @@ export default function BasicInfo() {
   const [workMobileError, setWorkMobileError] = useState(false);
   const [personalEmailError, setPersonalEmailError] = useState(false);
   const [officeEMailError, setOfficeEMailError] = useState(false);
+  const [nidError,setNidError] = useState([false])
   const [isSubmit, setIsSubmit] = useState(false);
   const [gender, setGender] = useState([]);
   const [maritalStatus, setMaritalStatus] = useState([]);
   const [country, setCountry] = useState([]);
-  const [selectedGender, setSelectedGender] = useState([]);
-  const [selectedMaritalStatus, setSelectedMaritalStatus] = useState([]);
-  const [selectedEthnicity, setSelectedEthnicity] = useState([]);
+  const [selectedGender, setSelectedGender] = useState("");
+  const [selectedMaritalStatus, setSelectedMaritalStatus] = useState("");
+  const [selectedEthnicity, setSelectedEthnicity] = useState("");
   const [isPortalAccessEnabled, setIsPortalAccessEnabled] = useState(false);
   const [isUserStatutory, setIsUserStatutory] = useState(false);
   const [userField, setUserField] = useState({
@@ -87,6 +88,11 @@ export default function BasicInfo() {
         setWorkMobileError(false);
       } else {
         setWorkMobileError(true);
+      }
+    }
+    if(name=="nid"){
+      if(isNaN(value)){
+        setNidError(true)
       }
     }
     setUserField({
@@ -175,7 +181,7 @@ export default function BasicInfo() {
       userField.personalContactNo == "" ||
       userField.workContactNo == "" ||
       userField.personalEmail == "" ||
-      userField.officeEMail == "";
+      userField.officeEMail == "" || personalMobileError || workMobileError || personalEmailError || officeEMailError || nidError
 
     if (!isEmpty) {
       let options = {
@@ -185,7 +191,7 @@ export default function BasicInfo() {
         gender: parseInt(selectedGender),
         maritalStatus: parseInt(selectedMaritalStatus),
         country: parseInt(selectedEthnicity),
-        dateOfBirth: '2024-03-06T05:42:43.433Z',//userField.dateOfBirth,
+        dateOfBirth: '2000-03-06T05:42:43.433Z',//userField.dateOfBirth,
         nid: userField.nid,
         presentAddress: userField.presentAddress,
         permanentAddress: userField.permanentAddress,
@@ -197,10 +203,12 @@ export default function BasicInfo() {
         isUserStatutory: isUserStatutory,
         profilePictureURL: "/a/b", // imagePath
       };
+
+      let name = options.firstName + ' ' + options.middleName + '' + options.lastName
       dispatch(postEmployeeBasicInfo(options)).then(function(e){
-        if(e.payload.success){
-          console.log(e.payload.payload[0])
-          dispatch(storeThisEmoployeeId(e.payload.payload[0]))
+        if(e.payload && e.payload.success){
+          // console.log(e.payload.payload[0])
+          dispatch(storeThisEmoployeeId([e.payload.payload[0],name]))
           dispatch(changeEmployeeRoll([0, true]));
 
         }
@@ -360,7 +368,7 @@ export default function BasicInfo() {
               <Label title="Gender" required />
               <Select
                 style={{
-                  border: isSubmit && selectedGender == "" && "1px solid pink",
+                  border: (isSubmit && selectedGender == "") && "1px solid pink",
                 }}
                 placement
                 data={gender}
@@ -402,8 +410,9 @@ export default function BasicInfo() {
             <div className="col-md-4">
               <Label title="NID" required />
               <Input
+              // type="number"
                 style={{
-                  border: isSubmit && userField.nid == "" && "1px solid pink",
+                  border: (isSubmit && userField.nid == "" || nidError) && "1px solid pink",
                 }}
                 placeholder="nid"
                 name="nid"
