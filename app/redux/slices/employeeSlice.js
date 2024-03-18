@@ -38,6 +38,15 @@ export const imageUpload = createAsyncThunk("upload-image", async (data) => {
   }
 });
 
+export const postEmployeeJobDetails = createAsyncThunk("post-employee-job", async (data) => {
+  try {
+    const response = await post(Endpoint.postEmployeeJobDetails, data);
+    return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
+});
+
 
 const initialStateValues = {
   data: [],

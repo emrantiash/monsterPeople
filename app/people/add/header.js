@@ -81,7 +81,7 @@ export default function Header() {
               fontWeight: Array.isArray(status) && !status[0] && "bold",
             }}
           >
-            Basic Info
+           <div style={{marginLeft:2}}>Basic Info</div> 
           </div>
           <div
             className="text-xs"

@@ -14,7 +14,9 @@ const Input = (props) => {
             placeholder={ props.placeholder}
             required = {props.required}
             maxLength = {props.length && props.lengthSize}
-            style={{...styles.input,width : props.width,...props.style}}
+            style={{...styles.input,width : props.width,...props.style,
+            borderColor : props.error && 'red'
+            }}
             // size = {4}
             type={props.type}
             value={props.value}

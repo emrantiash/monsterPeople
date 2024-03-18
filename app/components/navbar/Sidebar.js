@@ -13,7 +13,10 @@ export default function Sidebar() {
       }}
     >
       <ul
+        // className="navbar-nav bg-gradient-light sidebar sidebar-dark accordion"
         className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+
+        style={{backgroundColor : 'red'}}
         id="accordionSidebar"
       >
          <a className="sidebar-brand d-flex align-items-center justify-content-center" href="/">
@@ -146,16 +149,64 @@ export default function Sidebar() {
 }
        
         <li className="nav-item">
-          <a className="nav-link" href="/people">
-          <i className="fas fa-table-tennis"></i>
-            <span>Master</span>
+        <a
+            className="nav-link collapsed"
+            href=""
+            data-toggle="collapse"
+            data-target="#collapsePagesMaster"
+            aria-expanded="true"
+            aria-controls="collapsePagesMaster"
+          >
+            <i className="fas fa-table-tennis"></i>
+            <span>Master </span>
           </a>
-        </li>
+          <div
+            id="collapsePagesMaster"
+            className="collapse"
+            aria-labelledby="headingPages"
+            data-parent="#accordionSidebar"
+          >
+            <div className="bg-white py-2 collapse-inner rounded">
+              {/* <h6 className="collapse-header">Login Screens:</h6> */}
+              <Link className="collapse-item" href="/master/employment">
+                <span style={{ color: "", size: 30 }}>
+                  <i className="fas fa-user-friends"></i>
+                </span>
+                <span> Employment Type</span>
+              </Link>
 
+              <Link className="collapse-item" href="/master/division">
+                <span style={{ color: "", size: 30 }}>
+                  <i className="fas fa-home"></i>
+                </span>
+                <span> Division </span>
+              </Link>
+              <Link className="collapse-item" href="/master/department">
+                <span style={{ color: "", size: 30 }}>
+                  <i className="fas fa-calculator"></i>
+                </span>
+                <span> Department </span>
+              </Link>
+              <Link className="collapse-item" href="/master/location">
+                <span style={{ color: "", size: 30 }}>
+                  <i className="fas fa-location-arrow"></i>
+                </span>
+                <span> Location </span>
+              </Link>
+              
+              {/* <a className="collapse-item" href="blank.html">
+                <span style={{ color: "", size: 30 }}>
+                  <i className="fas fa-calendar"></i>
+                </span>
+                <span> Report 2 </span>
+              </a> */}
+              
+            </div>
+          </div>
+        </li>
       
 
-       
-
+    
         <li className="nav-item">
           <a
             className="nav-link collapsed"

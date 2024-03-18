@@ -1,7 +1,7 @@
 "use client";
 import Script from "next/script";
-import { Providers } from "./providers";
-import {NextUIProvider} from "@nextui-org/react";
+// import { Providers } from "./providers";
+// import {NextUIProvider} from "@nextui-org/react";
 import { Inter } from "next/font/google";
 import { store } from "./redux/store";
 import { Provider } from "react-redux";
@@ -34,7 +34,7 @@ export default function RootLayout({ children }) {
       </head>
 
       <body id="page-top" suppressHydrationWarning={true}>
-        <NextUIProvider>
+        {/* <NextUIProvider> */}
         <Provider store={store}>
           <PersistGate persistor={persistor}>
             <div id="wrapper">
@@ -48,7 +48,7 @@ export default function RootLayout({ children }) {
             </div>
           </PersistGate>
         </Provider>
-        </NextUIProvider>
+        {/* </NextUIProvider> */}
         <Script src="vendor/jquery/jquery.min.js"></Script>
         <Script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></Script>
 

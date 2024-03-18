@@ -1,8 +1,7 @@
-// import cookieCutter from 'cookie-cutter';
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import Endpoint from '@/app/utils/path/Path';
-import { get } from '@/app/utils/query/Query';
-// const CryptoJS = require("crypto-js");
+import { get ,post } from '@/app/utils/query/Query';
+
 
 export const getDivision = createAsyncThunk('get-division', async (data) => {
   try {
@@ -12,10 +11,46 @@ export const getDivision = createAsyncThunk('get-division', async (data) => {
   catch (error) {
     return error.response.data
   }
+})
 
-}
+export const getOnlyDivision = createAsyncThunk('get-only-division', async (data) => {
+  try {
+    const response = await get(Endpoint.getDivisionList, data)
+    return response.data
+  }
+  catch (error) {
+    return error.response.data
+  }
+})
+export const getOnlyTrueDivision = createAsyncThunk('get-only-true-division', async (data) => {
+  try {
+    const response = await get(Endpoint.getDivisionListOnlyTrue, data)
+    return response.data
+  }
+  catch (error) {
+    return error.response.data
+  }
+})
 
-)
+export const createDivision = createAsyncThunk('create-division', async (data) => {
+  try {
+    const response = await post(Endpoint.createDivision, data)
+    return response.data
+  }
+  catch (error) {
+    return error.response.data
+  }
+})
+
+export const updateDivision = createAsyncThunk('update-division', async (data) => {
+  try {
+    const response = await post(Endpoint.updateDivision, data)
+    return response.data
+  }
+  catch (error) {
+    return error.response.data
+  }
+})
 
 const initialStateValues = {
   isError : false ,
@@ -45,7 +80,7 @@ export const divisionSlice = createSlice({
     builder.addCase(getDivision.fulfilled, (state, action) => {
         state.isLoading = false,
         state.isError = false,
-        state.data = action.payload.payload[0],
+        state.data = action.payload.payload &&  action.payload.payload[0],
         state.division = makeTheData(action.payload.payload[0])
         
     });

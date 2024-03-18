@@ -122,6 +122,7 @@ export default function BasicInfo() {
   }, [dispatch]);
 
   const handleChange = (event) => {
+    console.log(event.target.files)
     if (event.target.files && event.target.files[0]) {
       const i = event.target.files[0];
 
@@ -131,16 +132,20 @@ export default function BasicInfo() {
   };
 
   const _uploadImage = () => {
-    const body = new FormData();
-    // console.log("file", image)
-    body.append("file", image);   
-    dispatch(imageUpload(body)).then(function (e) {
-      console.log(e.payload.payload[0]);
-      setImagePath(e.payload.payload[0])
-    });
+    if(image != ""){
+      setLoading(true)
+      const body = new FormData();
+      body.append("file", image);   
+      dispatch(imageUpload(body)).then(function (e) {
+        console.log(e.payload.payload[0]);
+       setLoading(false)
+        setImagePath(e.payload.payload[0])
+      });
+    }
+   
   };
 
-  // console.log(image);
+  console.log(imagePath);
 
   const _getGender = (e) => {
     console.log(e.target.value);
@@ -182,7 +187,8 @@ export default function BasicInfo() {
       userField.personalContactNo == "" ||
       userField.workContactNo == "" ||
       userField.personalEmail == "" ||
-      userField.officeEMail == "" || personalMobileError || workMobileError || personalEmailError || officeEMailError || nidError
+      userField.officeEMail == "" || personalMobileError || workMobileError || personalEmailError || officeEMailError || nidError || 
+      imagePath == ""
 
     if (!isEmpty) {
       let options = {
@@ -226,7 +232,7 @@ export default function BasicInfo() {
     }
   };
 
-  console.log(createObjectURL)
+  // console.log(createObjectURL)
   return (
     <div>
       {/* image */}
@@ -281,12 +287,34 @@ export default function BasicInfo() {
           
          
           
-          <div style={{ marginTop: 10 }}>
+          <div style={{ marginTop: 10,
+          display : 'flex',
+          flexDirection : 'row',
+          justifyContent : 'space-between',
+          alignItems : 'center'
+          }}>
             <Button
               class="btn btn-primary"
               text="Upload"
               onclick={_uploadImage}
             />
+            {
+              loading && <Loading />
+            }
+            {
+              
+              imagePath != "" ?
+              <div className="text-xs" style={{
+                // backgroundColor : '#b0c298',
+                color : 'green',
+                letterSpacing : 0.5,
+                padding : 5,
+                borderRadius : 5
+              }}> Image Uploaded Successfully </div>
+              :
+              isSubmit && imagePath == ""  && 
+              <div className="text-xs" style={{color : 'red'}}>No image is uploaded **</div>
+            }
           </div>
           </div>
             </div>
@@ -549,7 +577,7 @@ export default function BasicInfo() {
               className="form-check-label text-md"
               htmlFor="flexCheckDefault"
             >
-              Enable Protal Access
+              Enable Portal Access
             </label>
             <div className="text-xs">
               The employee will be able to view payslips and social security

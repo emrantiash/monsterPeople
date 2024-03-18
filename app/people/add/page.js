@@ -23,8 +23,6 @@ export default function page() {
       dispatch(setbreadcrumb(["People","Emoloyee List","Add Employee"]))
       dispatch(getEmployeeRoll([false,false,false,false,false]))
     },[])
-    
-    
 
   return (
     <div style={styles.container}>

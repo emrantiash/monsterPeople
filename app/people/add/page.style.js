@@ -41,7 +41,7 @@ const styles = {
         borderWidth: 3 
     },
     numberBoxNext: {
-        marginLeft :  -20,
+         marginLeft :  -20,
         marginRight : -20,
         // backgroundColor : commonStyle.color.red ,
         marginTop : 5,
@@ -76,9 +76,10 @@ const styles = {
         alignItems : 'center'
     },
     buttonGroup : {
+        // backgroundColor : 'red',
         display : 'flex',
         flexDirection : 'row',
-        justifyContent : 'center'
+        // justifyContent : 'flex-start'
     },
     justifyLabel : {
         display : 'flex',

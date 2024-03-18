@@ -9,6 +9,8 @@ import employeeReducer from './slices/employeeSlice';
 import salaryComponentReducer from './slices/salaryComponentSlice';
 import basicReducer from './slices/basicSlices';
 import divisionReducer from './slices/divisionSlices';
+import masterReducer from './slices/masterSlices';
+import departmentReducer from './slices/departmentSlice';
 
 
 
@@ -29,7 +31,9 @@ const reducer = combineReducers({
     employeeReducer : employeeReducer,
     salaryComponentReducer : salaryComponentReducer,
     basicReducer : basicReducer,
-    divisionReducer : divisionReducer
+    divisionReducer : divisionReducer,
+    masterReducer : masterReducer,
+    departmentReducer : departmentReducer
     
 });
 

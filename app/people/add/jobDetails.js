@@ -6,7 +6,11 @@ import {
   getDesignationList,
 } from "@/app/redux/slices/employeeSlice";
 import { getDivision, getDepartment } from "@/app/redux/slices/divisionSlices";
-import { getEmployeeType,getWorkLocation } from "@/app/redux/slices/basicSlices";
+import {
+  getEmployeeType,
+  getWorkLocation,
+} from "@/app/redux/slices/basicSlices";
+import { postEmployeeJobDetails } from "@/app/redux/slices/employeeSlice";
 import Label from "@/app/components/label/Label";
 import Input from "@/app/components/input/Input";
 import Select from "@/app/components/select/Select";
@@ -38,45 +42,69 @@ const black = true;
 
 export default function JobDetails() {
   const dispatch = useDispatch();
+  const [isSubmit, setIsSubmit] = useState(false);
   const [designation, setDesignation] = useState([]);
-  const [employeeType,setEmployeeType] = useState([])
-  const [workLocation,setWorkLocation] = useState([])
+  const [employeeType, setEmployeeType] = useState([]);
+  const [workLocation, setWorkLocation] = useState([]);
   const data = useSelector((state) => state.divisionReducer.data);
-  const [selectedType, setSelectedType] = useState(0);
+  const [selectedType, setSelectedType] = useState("");
   const [selectedDepartment, setSelectedDepartment] = useState(0);
-  const [selectedDivision, setSelectedDivision] = useState(0);
-  const [selectedWorkLocation, setSelectedWorkLocation] = useState(0);
-  const [selectedDesignation, setSelectedDesignation] = useState(0);
-  const thisEmployeeName = useSelector((state)=>state.employeeReducer.thisEmployeeName)
-  const thisEmployeeID = useSelector((state)=>state.employeeReducer.thisEmployeeId)
+  const [selectedDivision, setSelectedDivision] = useState("");
+  const [selectedWorkLocation, setSelectedWorkLocation] = useState("");
+  const [selectedDesignation, setSelectedDesignation] = useState("");
+  const thisEmployeeName = useSelector(
+    (state) => state.employeeReducer.thisEmployeeName
+  );
+  const thisEmployeeID = useSelector(
+    (state) => state.employeeReducer.thisEmployeeId
+  );
   const division = useSelector((state) => state.divisionReducer.division);
-  const department = useSelector((state) => state.divisionReducer.department[0].departmentList);
+  const department = useSelector(
+    (state) =>
+      state.divisionReducer.department && state.divisionReducer.department
+  );
+
+  console.log(department);
   const [userField, setUserField] = useState({
-    dateOfJoining : "",
-    confirmationDate : "",
-   
+    employeeCode: "",
+    dateOfJoining: "",
+    confirmationDate: "",
   });
 
-  console.log(employeeType)
+  console.log(thisEmployeeID);
 
   useEffect(() => {
     dispatch(getDivision());
-    dispatch(getEmployeeType()).then(function(e){
+    dispatch(getEmployeeType()).then(function (e) {
       e.payload && e.payload.success
         ? setEmployeeType(e.payload.payload[0])
         : setEmployeeType([]);
-    })
-    dispatch(getWorkLocation()).then(function(e){
+    });
+    dispatch(getWorkLocation()).then(function (e) {
       e.payload && e.payload.success
         ? setWorkLocation(e.payload.payload[0])
         : setWorkLocation([]);
-    })
+    });
     dispatch(getDesignationList()).then(function (e) {
       e.payload && e.payload.success
         ? setDesignation(e.payload.payload[0])
         : setDesignation([]);
     });
   }, [dispatch]);
+
+  const _getEmployeeType = (e) => {
+    setSelectedType(e.target.value);
+  };
+
+  const changeUserFieldHandler = (e) => {
+    const { name, value } = e.target;
+    console.log(name, value);
+
+    setUserField({
+      ...userField,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const _getDepartmentName = (e) => {
     setSelectedDivision(e.target.value);
@@ -87,69 +115,139 @@ export default function JobDetails() {
     setSelectedDepartment(e.target.value);
   };
 
-  const _saveWorkLocation = (e) =>{
-    setSelectedWorkLocation(e.target.value)
-  }
+  const _saveWorkLocation = (e) => {
+    setSelectedWorkLocation(e.target.value);
+  };
 
-  const _saveDesignation = (e) =>{
-    setSelectedDesignation(e.target.value)
-  }
+  const _saveDesignation = (e) => {
+    setSelectedDesignation(e.target.value);
+  };
 
   const _submit = () => {
-    dispatch(changeEmployeeRoll([1, true]));
+    setIsSubmit(true);
+    const isEmpty =
+      thisEmployeeID == "" ||
+      userField.employeeCode == "" ||
+      userField.dateOfJoining == "" ||
+      userField.confirmationDate ==""||
+      selectedDivision == "" ||
+      selectedDepartment == "" ||
+      selectedDesignation == "" ||
+      selectedType == "" ||
+      selectedWorkLocation == "";
+      console.log(isEmpty)
+    if (!isEmpty) {
+      let options = {
+        employeeId: parseInt(thisEmployeeID),
+        employeeCode: userField.employeeCode,
+        dateOfJoining: userField.dateOfJoining,
+        confirmationDate: userField.confirmationDate,
+        divisionId: parseInt(selectedDivision),
+        departmentId: parseInt(selectedDepartment),
+        designationId: parseInt(selectedDesignation),
+        employmentTypeId: parseInt(selectedType),
+        workLocationId: parseInt(selectedWorkLocation),
+      };
+      console.log(options)
+
+      dispatch(postEmployeeJobDetails(options)).then(function (e) {
+        e.payload &&
+          e.payload.success &&
+          dispatch(changeEmployeeRoll([1, true]));
+      });
+    }
   };
   return (
     <div>
       <div className="row" style={styles.bobyInnerRow}>
         <div className="col-md-3" style={{ backgroundColor: "" }}></div>
         <div className="col-md-8" style={{ backgroundColor: "" }}>
-        <div className="row">
-       
-        <div className="col-12" style={{ backgroundColor: "" }}>
-          <div className="text-table font-weight-normal" style={{
-            color : 'green',
-            marginBottom :10 ,
-            display : 'flex',
-            flexDirection : 'row'
-          }}>
-          <div style={{color:'orange'}}><i className="fas fa-user"></i></div> &nbsp; {thisEmployeeName}
+          <div className="row">
+            <div className="col-12" style={{ backgroundColor: "" }}>
+              <div
+                className="text-table font-weight-normal"
+                style={{
+                  color: "green",
+                  marginBottom: 10,
+                  display: "flex",
+                  flexDirection: "row",
+                }}
+              >
+                <div style={{ color: "orange" }}>
+                  <i className="fas fa-user"></i>
+                </div>{" "}
+                &nbsp; {thisEmployeeName}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
           <div className="row" style={styles.bobyInnerRow}>
             <div className="col-md-4">
               <Label title="Employee ID" />
-              <Input placeholder="Employee ID" />
+              <Input
+                error={isSubmit && userField.employeeCode == ""}
+                placeholder="Employee ID"
+                name="employeeCode"
+                onChange={(e) => changeUserFieldHandler(e)}
+              />
             </div>
             <div className="col-md-4">
               <Label title="Employee Type" />
-              <Select placement data={employeeType} />
+              <Select
+               error={isSubmit && selectedType == ""}
+                placement
+                data={employeeType}
+                onchange={_getEmployeeType}
+              />
             </div>
           </div>
           <div className="row" style={styles.bobyInnerRow}>
             <div className="col-md-4">
               <Label title="Date Of Joining" />
-              <Input type="date" placeholder="First name" />
+              <Input
+              error={isSubmit && userField.dateOfJoining == ""}
+                type="date"
+                placeholder="dateOfJoining"
+                name="dateOfJoining"
+                onChange={(e) => changeUserFieldHandler(e)}
+              />
             </div>
             <div className="col-md-4">
               <Label title="Confirmation Date" />
-              <Input type="date" placeholder="First name" />
+              <Input
+                error={isSubmit && userField.confirmationDate == ""}
+                type="date"
+                placeholder="confirmationDate"
+                name="confirmationDate"
+                onChange={(e) => changeUserFieldHandler(e)}
+              />
             </div>
           </div>
           <div className="row" style={styles.bobyInnerRow}>
             <div className="col-md-4">
               <Label title="Division" />
-              <Select placement data={division} onchange={_getDepartmentName} />
+              <Select 
+               error={isSubmit && selectedDivision == ""}
+              placement data={division} onchange={_getDepartmentName} />
             </div>
             <div className="col-md-4">
               <Label title="Department" />
-              <Select placement data={department} onchange={_saveDepartment} />
+              <Select
+              error={isSubmit && selectedDepartment == ""}
+                placement
+                data={selectedDivision != 0 && department[0].departmentList}
+                onchange={_saveDepartment}
+              />
             </div>
           </div>
           <div className="row" style={styles.bobyInnerRow}>
             <div className="col-md-4">
               <Label title="Work Location" />
-              <Select placement  data={workLocation} onchange={_saveWorkLocation} />
+              <Select
+              error={isSubmit && selectedWorkLocation == ""}
+                placement
+                data={workLocation}
+                onchange={_saveWorkLocation}
+              />
             </div>
             {/* <div className="col-md-4">
               <Label title="Contract Type" />
@@ -157,7 +255,12 @@ export default function JobDetails() {
             </div> */}
             <div className="col-md-4">
               <Label title="Designation" />
-              <Select placement data={designation} onchange={_saveDesignation} />
+              <Select
+              error={isSubmit && selectedDesignation == ""}
+                placement
+                data={designation}
+                onchange={_saveDesignation}
+              />
             </div>
           </div>
           <div className="row" style={styles.bobyInnerRow}>

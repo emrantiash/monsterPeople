@@ -14,7 +14,8 @@ const Select = props => {
                 padding: '0.9rem 1rem ',
                 color:'#495057',
                 // border : '1px solid #ced4da ',
-                 width : '100%'
+                 width : '100%',
+                 borderColor : props.error && 'red'
             }}
             onChange={(e)=>props.onchange(e)}            
             >
