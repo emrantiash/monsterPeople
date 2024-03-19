@@ -37,7 +37,7 @@ export default function Page() {
   useEffect(() => {
     dispatch(setbreadcrumb(["Master", "Employment Type"]));
     dispatch(getEmploymentTypeDetails()).then(function (e) {
-      e.payload.success && setDataset(makeTheData(e.payload.payload[0]))
+      e.payload && e.payload.success && setDataset(makeTheData(e.payload.payload[0]))
     });
   }, [dispatch]);
 
