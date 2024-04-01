@@ -4,15 +4,17 @@ import Endpoint from "@/app/utils/path/Path";
 import { get, customget, post } from "@/app/utils/query/Query";
 
 
-export const uploadDocument = createAsyncThunk('upload-doc', async (data) => {
-  try {
-    const response = await post(Endpoint.uploadDocument, data)
-    return response.data
-  }
-  catch (error) {
-    return error.response.data
-  }
-})
+// export const uploadDocument = createAsyncThunk('upload-doc', async (data) => {
+//   try {
+//     const response = await post(Endpoint.uploadDocument, data)
+//     return response.data
+//   }
+//   catch (error) {
+//     return error.response.data
+//   }
+// })
+
+
 
 
 

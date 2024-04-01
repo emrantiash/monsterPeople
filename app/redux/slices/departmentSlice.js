@@ -35,10 +35,9 @@ export const updateDepartment = createAsyncThunk('update-department', async (dat
 
 
 const initialStateValues = {
-  isError : false ,
+  isLoading : false ,
   success: false,
   data: [],
-  division : [],
   selectedDivision : 0,
   department : []
 }
@@ -53,6 +52,22 @@ export const departmentSlice = createSlice({
     //  state.department = (state.data.filter(item => item.divisionId == action.payload))
     // }
 },
+extraReducers: (builder) => {
+  builder.addCase(getDepartmentList.pending, (state, action) => {
+    state.isLoading = true
+  });
+
+  builder.addCase(getDepartmentList.fulfilled, (state, action) => {
+      state.isLoading = false,
+      state.department = (action.payload.payload[0])
+      
+  });
+
+  builder.addCase(getDepartmentList.rejected, (state, action) => {
+    state.isLoading = false
+   
+  });
+}
   
   
 })

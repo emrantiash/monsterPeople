@@ -2,10 +2,19 @@ import React from 'react';
 import Image from 'next/image';
 import loadingImg from '../../assets/img/loading/loading.gif'
 
-export default function Loading() {
+export default function Loading(props) {
   return (
-    <div >
-    <Image src={loadingImg} width={100} alt="loading" />
+    <div style={{
+      display : 'flex',
+      justifyContent : 'center',
+      alignItems : 'center'
+    }}>
+    {/* <Image src={loadingImg} width={100} alt="loading" /> */}
+    {
+      props.isLoading &&
+      <i className='fas fa-spinner fa-2x' ></i>
+    }
+    
   </div>
   )
 }

@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import storage from 'reduxjs-toolkit-persist/lib/storage'
 import { getDefaultMiddleware } from '@reduxjs/toolkit';
 import { persistReducer } from 'redux-persist';
@@ -11,6 +11,10 @@ import basicReducer from './slices/basicSlices';
 import divisionReducer from './slices/divisionSlices';
 import masterReducer from './slices/masterSlices';
 import departmentReducer from './slices/departmentSlice';
+import designationReducer from './slices/designationSlice';
+import locationReducer from './slices/locationSlice';
+import bankReducer from './slices/bankSlice';
+import employementReducer from './slices/employementSlice';
 
 
 
@@ -33,7 +37,11 @@ const reducer = combineReducers({
     basicReducer : basicReducer,
     divisionReducer : divisionReducer,
     masterReducer : masterReducer,
-    departmentReducer : departmentReducer
+    departmentReducer : departmentReducer,
+    designationReducer : designationReducer,
+    locationReducer : locationReducer,
+    bankReducer : bankReducer,
+    employementReducer : employementReducer
     
 });
 

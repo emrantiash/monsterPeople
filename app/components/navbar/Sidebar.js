@@ -168,31 +168,43 @@ export default function Sidebar() {
           >
             <div className="bg-white py-2 collapse-inner rounded">
               {/* <h6 className="collapse-header">Login Screens:</h6> */}
-              <Link className="collapse-item" href="/master/employment">
+              <a className="collapse-item" href="/employment">
                 <span style={{ color: "", size: 30 }}>
                   <i className="fas fa-user-friends"></i>
                 </span>
                 <span> Employment Type</span>
-              </Link>
+              </a>
 
-              <Link className="collapse-item" href="/master/division">
+              <a className="collapse-item" href="/division">
                 <span style={{ color: "", size: 30 }}>
                   <i className="fas fa-home"></i>
                 </span>
                 <span> Division </span>
-              </Link>
-              <Link className="collapse-item" href="/master/department">
+              </a>
+              <a className="collapse-item" href="/department">
                 <span style={{ color: "", size: 30 }}>
                   <i className="fas fa-calculator"></i>
                 </span>
                 <span> Department </span>
-              </Link>
+              </a>
               <Link className="collapse-item" href="/master/location">
                 <span style={{ color: "", size: 30 }}>
                   <i className="fas fa-location-arrow"></i>
                 </span>
                 <span> Location </span>
               </Link>
+              <a className="collapse-item" href="/designation">
+                <span style={{ color: "", size: 30 }}>
+                  <i className="fas fa-birthday-cake"></i>
+                </span>
+                <span> Designation </span>
+              </a>
+              <a className="collapse-item" href="/bank">
+                <span style={{ color: "", size: 30 }}>
+                  <i className="fas fa-home"></i>
+                </span>
+                <span> Bank </span>
+              </a>
               
               {/* <a className="collapse-item" href="blank.html">
                 <span style={{ color: "", size: 30 }}>

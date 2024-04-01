@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { setbreadcrumb } from "@/app/redux/slices/breadcrumbSlice";
-import { getEmploymentTypeDetails } from "@/app/redux/slices/employementSlice";
+import { getEmploymentTypeDetails } from "../redux/slices/employementSlice";
 import {
   saveDocument,
   getActionType,
@@ -12,6 +12,7 @@ import {
 import Table from "@/app/components/table/Table";
 import Button from "@/app/components/button/Button";
 import Loading from "@/app/components/loading/Loading";
+import { Inactive } from "../utils/constant/inactive";
 
 const thead = [
   {
@@ -33,37 +34,18 @@ const thead = [
 export default function Page() {
   const dispatch = useDispatch();
   const router = useRouter();
-  const [loading,setLoading] = useState(true)
-  const [dataset, setDataset] = useState([]);
+  const loading = useSelector((state)=>state.employementReducer.isLoading)
+  const dataset = useSelector((state)=>state.employementReducer.employmentType);
 
   useEffect(() => {
     dispatch(setbreadcrumb(["Master", "Employment Type"]));
-    dispatch(getEmploymentTypeDetails()).then(function (e) {
-      e.payload && e.payload.success && ( 
-        setDataset(makeTheData(e.payload.payload[0])),
-        setLoading(false)
-      )
-    });
-  }, [dispatch]);
-
-
-  function makeTheData(data) {
-    let arr = [];
-    data.map((data, index) =>
-      arr.push({
-        id: data.id,
-        name: data.name,
-        count: data.totalCount,
-        active : data.status == "Active" ? "Active" : "In-Active",
-      })
-    );
-    return arr;
-  }
+    dispatch(getEmploymentTypeDetails())
+  }, [dispatch]);  
 
   const _tableOptions = (row) => {
     dispatch(saveDocument(row));
     dispatch(getActionType("Edit"));
-    router.push("/master/employment/add");
+    router.push("/employment/add");
   };
 
   const _saveActionType = (_val) => {
@@ -93,10 +75,10 @@ export default function Page() {
         <div className="col-1"></div>
         <div className="col-8">
            {/* <!-- DataTales Example --> */}
-           {/* <div className="card shadow mb-4">
+           <div className="card shadow mb-4">
               <div className="card-header py-3">
                 <h6 className="m-0 font-weight-bold text-primary">
-                  Employee Table 
+                  Employment Table 
                 </h6>
               </div>
               <div className="card-body">
@@ -115,6 +97,7 @@ export default function Page() {
                           <th>Employment Type</th>
                           <th>#Employee</th>
                           <th>Status</th>
+                          <th>Action</th>
                         
                         </tr>
                       </thead>
@@ -122,11 +105,17 @@ export default function Page() {
                       <tbody>
                         {
                           dataset.map((data,index)=>
-                          <tr className="text-table" key={index} onClick={()=>_tableOptions(data)}>
+                          <tr className="text-table" key={index} 
+                          style={{
+                            backgroundColor : data.active == Inactive.inactive && Inactive.background,
+                            color : data.active == Inactive.inactive && Inactive.color
+                          }}
+                          >
                           <td>{index + 1}</td>
                           <td>{data.name}</td>
                           <td>{data.count}</td>
                           <td>{data.active}</td>
+                          <td onClick={()=>_tableOptions(data)} style={{cursor : 'pointer'}}>Edit</td>
                           </tr>
                           
                           )
@@ -137,13 +126,13 @@ export default function Page() {
                   }
                 </div>
               </div>
-            </div> */}
-          <Table
+            </div>
+          {/* <Table
             options
             thead={thead}
             tbody={dataset}
             makeOption={_tableOptions}
-          />
+          /> */}
         </div>
         <div className="col-2"></div>
       </div>

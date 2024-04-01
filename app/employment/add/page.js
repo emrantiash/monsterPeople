@@ -54,12 +54,13 @@ export default function Page() {
   };
 
   const _submit = () => {
+    console.log("----",action)
     if (action == "Add" && val != "") {
       let options = {
         attributeName: val,
       };
       dispatch(createEmploymentType(options)).then(function (e) {
-        e.payload.success && router.push(href);
+        e.payload.success &&  ((window.location.href = href))
       });
     }
     if (action == "Edit" && val != "") {
@@ -68,19 +69,21 @@ export default function Page() {
         newName: val,
         isActive: isActive,
       };
+      console.log(options)
       dispatch(updateEmploymentType(options)).then(function (e) {
-      e.payload &&   e.payload.success && router.push(href);
+        console.log(e)
+        e.payload && e.payload.success && ((window.location.href = href))
       });
     }
   };
 
   const _cancel = () =>{
-    router.push("/master/employment")
+    router.push("/employment")
   }
   return (
     <div className="row">
       <div className="col-1"></div>
-      <div className="col-2">
+      <div className="col-4">
         <div>
           <Label title="Employee Type" />
           <Input
@@ -107,7 +110,7 @@ export default function Page() {
           <Button
             class="btn btn-success"
             text={action == "Add" ? "Submit" : "Update" } 
-            // width={150}
+            width={150}
             onclick={_submit}
           />
           &nbsp;

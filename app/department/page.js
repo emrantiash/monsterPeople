@@ -1,69 +1,38 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useDispatch, useSelector } from "react-redux";
 import { setbreadcrumb } from "@/app/redux/slices/breadcrumbSlice";
-import { getEmploymentTypeDetails } from "@/app/redux/slices/employementSlice";
+import { getDepartmentList } from "@/app/redux/slices/departmentSlice";
 import {
   saveDocument,
   getActionType,
 } from "@/app/redux/slices/masterSlices";
-import Table from "@/app/components/table/Table";
 import Button from "@/app/components/button/Button";
-import Loading from "@/app/components/loading/Loading";
+import Table from "@/app/components/table/Table";
+import Loading from "../components/loading/Loading";
 
-const thead = [
-  {
-    id: 1,
-    name: "Employment Type",
-  },
-  {
-    id: 2,
-    name: "No. of Employees",
-  },
-  
-  {
-    id: 3,
-    name: "Status",
-  }
- 
-];
 
-export default function Page() {
+
+export default function page() {
+  const router = useRouter()
   const dispatch = useDispatch();
-  const router = useRouter();
-  const [loading,setLoading] = useState(true)
-  const [dataset, setDataset] = useState([]);
+  const loading = useSelector((state)=>state.departmentReducer.isLoading)
+  const dataset = useSelector((state)=>state.departmentReducer.department)
 
   useEffect(() => {
-    dispatch(setbreadcrumb(["Master", "Employment Type"]));
-    dispatch(getEmploymentTypeDetails()).then(function (e) {
-      e.payload && e.payload.success && ( 
-        setDataset(makeTheData(e.payload.payload[0])),
-        setLoading(false)
-      )
-    });
+    dispatch(setbreadcrumb(["Master", "Department"]));
+    dispatch(getDepartmentList())
   }, [dispatch]);
 
-
-  function makeTheData(data) {
-    let arr = [];
-    data.map((data, index) =>
-      arr.push({
-        id: data.id,
-        name: data.name,
-        count: data.totalCount,
-        active : data.status == "Active" ? "Active" : "In-Active",
-      })
-    );
-    return arr;
-  }
+ 
 
   const _tableOptions = (row) => {
+    console.log(row)
     dispatch(saveDocument(row));
     dispatch(getActionType("Edit"));
-    router.push("/master/employment/add");
+    router.push("/department/add");
   };
 
   const _saveActionType = (_val) => {
@@ -80,10 +49,11 @@ export default function Page() {
           style={{ color: "green", height: 30, cursor: "pointer" }}
         >
           <Link
-            href="/master/employment/add"
+            href="/department/add"
             onClick={() => _saveActionType("Add")}
           >
-            <Button class="btn btn-success text-table" text ="Add New" 
+            {/* <i className="fas fa-plus fa-2x"></i> */}
+            <Button class="btn btn-success text-table" text="Add New"
             icon = {<i className="fas fa-plus"></i>}
             />
           </Link>
@@ -92,11 +62,10 @@ export default function Page() {
       <div className="row">
         <div className="col-1"></div>
         <div className="col-8">
-           {/* <!-- DataTales Example --> */}
-           {/* <div className="card shadow mb-4">
+        <div className="card shadow mb-4">
               <div className="card-header py-3">
                 <h6 className="m-0 font-weight-bold text-primary">
-                  Employee Table 
+                  Department Table 
                 </h6>
               </div>
               <div className="card-body">
@@ -109,12 +78,13 @@ export default function Page() {
                       width="100%"
                       cellSpacing="0"
                     >
-                      <thead>
+                      <thead className="text-table">
                         <tr>
                           <th>Sl.</th>
-                          <th>Employment Type</th>
-                          <th>#Employee</th>
+                          <th>Department Name</th>
+                          <th>Division</th>
                           <th>Status</th>
+                          <th>Action</th>
                         
                         </tr>
                       </thead>
@@ -122,11 +92,17 @@ export default function Page() {
                       <tbody>
                         {
                           dataset.map((data,index)=>
-                          <tr className="text-table" key={index} onClick={()=>_tableOptions(data)}>
+                          <tr className="text-table" key={index} 
+                          style={{
+                            backgroundColor : !data.isActive && '#f3f3f3',
+                            color : !data.isActive && 'pink'
+                          }}
+                          >
                           <td>{index + 1}</td>
                           <td>{data.name}</td>
-                          <td>{data.count}</td>
-                          <td>{data.active}</td>
+                          <td>{data.parentName}</td>
+                          <td>{data.isActive ? "Active" : "In-Active"}</td>
+                          <td onClick={()=>_tableOptions(data)} style={{cursor : 'pointer'}}>Edit</td>
                           </tr>
                           
                           )
@@ -137,17 +113,17 @@ export default function Page() {
                   }
                 </div>
               </div>
-            </div> */}
-          <Table
+            </div>
+          {/* <Table
             options
             thead={thead}
             tbody={dataset}
-            makeOption={_tableOptions}
-          />
+             makeOption={_tableOptions}
+          /> */}
+           <Loading isLoading={loading}/>
         </div>
         <div className="col-2"></div>
       </div>
-      <Loading isLoading={loading}/>
     </div>
   );
 }

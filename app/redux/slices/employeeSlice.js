@@ -47,6 +47,20 @@ export const postEmployeeJobDetails = createAsyncThunk("post-employee-job", asyn
   }
 });
 
+export const uploadDocument = createAsyncThunk('upload-employees-docs', async (data) => {
+  console.log("====reducer===",data)
+  try {
+    const response = await post(Endpoint.uploadDocument, data)
+    return response.data
+  }
+  catch (error) {
+    console.log("====error=====")
+    return error.response.data
+  }
+})
+
+
+
 
 const initialStateValues = {
   data: [],

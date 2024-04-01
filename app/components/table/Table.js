@@ -43,7 +43,7 @@ const Table = (props) => {
                  lineHeight: 2,
                 backgroundColor:
                   row.active == "In-Active"
-                    ? "#b7a8a8"
+                    ? "#7283ac"
                     : row.title == "Total Gross"
                     ? "#efefef"
                     : row.title == "Net Pay" && "#efefef",

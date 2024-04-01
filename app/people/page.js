@@ -16,7 +16,7 @@ import Button from "../components/button/Button";
 import peopleImage from "../assets/img/people/Frame.svg";
 import styles from "./people.style";
 
-const _maxValue = 3;
+const _maxValue = 3; // it will come from db
 
 const people = [
   {
@@ -66,7 +66,7 @@ export default function Page() {
 
   const employee = useSelector((state) => state.employeeReducer.data);
 
-  // console.log(employee);
+  console.log(dataset);
 
   useEffect(() => {
     dispatch(setbreadcrumb(["People", "Employee List "]));
@@ -80,7 +80,6 @@ export default function Page() {
       setLength(e.payload && e.payload.payload[0].length);
     });
   }, [dispatch]);
-  console.log(dataset);
 
   const addEmployee = () => {
     dispatch(setbreadcrumb(["People", "Add People"]));
@@ -215,15 +214,13 @@ export default function Page() {
                                 <div
                                   style={{
                                     display: "flex",
-                                    flexDirection: "column",
-                                    // justifyContent: "space-between",
-                                    // alignItems: "center",
+                                    flexDirection: "column"
                                   }}
                                 >
                                   <div
                                     style={{
                                       display: "flex",
-                                      flexDirection: "column",
+                                      flexDirection: "column"
                                     }}
                                   >
                                     <div className="font-weight-bold text-primary">
@@ -243,7 +240,6 @@ export default function Page() {
                                         )
                                       }
                                     >
-                                      {/* <i className="fas fa-info-circle fa-x"></i> */}
                                       <div className="progress">
                                         <div
                                           className="progress-bar"
@@ -259,8 +255,6 @@ export default function Page() {
                                     </Link>
                                   )}
                                 </div>
-
-                                {/* {data.designation} </td> */}
                               </td>
                               <td>
                                 <div
@@ -278,8 +272,6 @@ export default function Page() {
                               <td>{data.reportingTo}</td>
                               <td
                                 style={{
-                                  // display: "flex",
-                                  // justifyContent: "center",
                                   alignItems: "center",
                                   cursor: "pointer",
                                 }}

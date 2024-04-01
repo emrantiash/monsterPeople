@@ -17,7 +17,8 @@ const Select = props => {
                  width : '100%',
                  borderColor : props.error && 'red'
             }}
-            onChange={(e)=>props.onchange(e)}            
+            onChange={(e)=>props.onchange(e)}  
+            defaultValue={props.selected}     
             >
                 {
                     props.placement &&
@@ -28,7 +29,7 @@ const Select = props => {
                 {
                    Array.isArray(props.data) &&  props.data !=null && props.data!= undefined && 
                     props.data.map((data,index)=>
-                    <option  value={[data.id]} key={index} className='text-xs'>{data.name} </option>
+                    <option  value={[data.id]} key={index} className='text-xs' >{data.name} </option>
 
                     
                     )

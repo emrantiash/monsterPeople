@@ -1,5 +1,4 @@
-
-export default function MasterDesignationLayout({
+export default function MasterLocationLayout({
     children, // will be a page or nested layout
   }) {
     return (
@@ -7,6 +6,8 @@ export default function MasterDesignationLayout({
        
    
         {children}
+
+        
       </section>
     )
   }

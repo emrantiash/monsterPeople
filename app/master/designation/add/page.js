@@ -2,17 +2,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import {
-  createEmploymentType,
-  updateEmploymentType,
-} from "@/app/redux/slices/employementSlice";
+import { createDesignation,updateDesignation } from "@/app/redux/slices/designationSlice";
 import { setbreadcrumb } from "@/app/redux/slices/breadcrumbSlice";
 import Input from "@/app/components/input/Input";
 import Button from "@/app/components/button/Button";
 import Select from "@/app/components/select/Select";
 import Label from "@/app/components/label/Label";
 
-const href = "/employment";
+const href = "/master/designation";
 
 const data = [
   {
@@ -31,7 +28,7 @@ export default function Page() {
   const [val, setVal] = useState("");
   const [isActive, setIsActive] = useState(true);
   const action = useSelector((state) => state.masterReducer.action);
-  const employment = useSelector(
+  const document = useSelector(
     (state) => state.masterReducer.document
   );
 
@@ -42,12 +39,12 @@ export default function Page() {
   };
 
   useEffect(()=>{
-    dispatch(setbreadcrumb(["Master","Employment Type" , GrandChild]))
+    dispatch(setbreadcrumb(["Master","Designation" , GrandChild]))
   },[dispatch])
 
   useEffect(() => {
-    Object.keys(employment).length > 0 && setVal(employment.name);
-  }, [ Object.keys(employment).length > 0]);
+    Object.keys(document).length > 0 && setVal(document.name);
+  }, [ Object.keys(document).length > 0]);
 
   const _getStatus = (e) => {
     setIsActive(e.target.value);
@@ -58,18 +55,19 @@ export default function Page() {
       let options = {
         attributeName: val,
       };
-      dispatch(createEmploymentType(options)).then(function (e) {
-        e.payload.success && router.push(href);
+      console.log(options)
+      dispatch(createDesignation(options)).then(function (e) {
+        
+        e.payload &&  e.payload.success && router.push(href);
       });
     }
     if (action == "Edit" && val != "") {
       let options = {
-        attributeId: employment.id,
-        newName: val,
-        isActive: isActive,
+        designationId: document.id,
+        name: val
       };
-      dispatch(updateEmploymentType(options)).then(function (e) {
-      e.payload &&   e.payload.success && router.push(href);
+      dispatch(updateDesignation(options)).then(function (e) {
+        e.payload.success && router.push(href);
       });
     }
   };
@@ -80,16 +78,16 @@ export default function Page() {
   return (
     <div className="row">
       <div className="col-1"></div>
-      <div className="col-2">
+      <div className="col-4">
         <div>
-          <Label title="Employee Type" />
+          <Label title="Name Of The Designation " />
           <Input
             placeholder=""
             value={val}
             onChange={(e) => changeUserFieldHandler(e)}
           />
         </div>
-        <div>
+        {/* <div>
           {action != "Add" && (
             <Select
               data={data}
@@ -97,7 +95,7 @@ export default function Page() {
               onchange={_getStatus}
             />
           )}
-        </div>
+        </div> */}
         <div
           style={{
             display: "flex",
@@ -107,7 +105,7 @@ export default function Page() {
           <Button
             class="btn btn-success"
             text={action == "Add" ? "Submit" : "Update" } 
-            // width={150}
+            width={150}
             onclick={_submit}
           />
           &nbsp;

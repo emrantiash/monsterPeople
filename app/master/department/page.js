@@ -87,7 +87,7 @@ export default function page() {
             onClick={() => _saveActionType("Add")}
           >
             {/* <i className="fas fa-plus fa-2x"></i> */}
-            <Button class="btn btn-success " text="Add New"
+            <Button class="btn btn-success text-table" text="Add New"
             icon = {<i className="fas fa-plus"></i>}
             />
           </Link>

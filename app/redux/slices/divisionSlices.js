@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import Endpoint from '@/app/utils/path/Path';
 import { get ,post } from '@/app/utils/query/Query';
-
+import { Inactive } from "@/app/utils/constant/inactive";
 
 export const getDivision = createAsyncThunk('get-division', async (data) => {
   try {
@@ -81,7 +81,7 @@ export const divisionSlice = createSlice({
         state.isLoading = false,
         state.isError = false,
         state.data = action.payload.payload &&  action.payload.payload[0],
-        state.division = makeTheData(action.payload.payload[0])
+        state.division = (action.payload.payload[0])
         
     });
 
@@ -91,7 +91,26 @@ export const divisionSlice = createSlice({
      
     });
 
+    builder.addCase(getOnlyDivision.pending, (state, action) => {
+      state.isLoading = true
+    });
+
+    builder.addCase(getOnlyDivision.fulfilled, (state, action) => {
+        state.isLoading = false,
+        state.division = (action.payload.payload[0])
+        
+    });
+
+    builder.addCase(getOnlyDivision.rejected, (state, action) => {
+      state.isError = true,
+      state.isLoading = false
+     
+    });
+
+
   }
+
+  
 })
 
 
@@ -101,34 +120,17 @@ export const divisionSlice = createSlice({
 export default divisionSlice.reducer
 
 
-// function makeDepartmentList(data){
-//     // const data =  data
-
-//     console.log(data)
-//     let arr = []
-//     data.map((data, index) =>{
-//         console
-//         arr.push(
-//             {
-//                 id: data.id,
-//                 name: data.name
-//             }
-//         )
-
-//     }
-        
-//     )
-//     return arr;
-// }
-
 function makeTheData(data){
     console.log(data)
     let arr = []
     data.map((data, index) =>
         arr.push(
             {
-                id: data.divisionId,
-                name: data.divisionName
+              id: data.id,
+               Sl: index + 1,
+              name: data.name,
+              count: data.totalCount,
+              active: data.isActive ? "Active" : Inactive.inactive,
             }
         )
     )

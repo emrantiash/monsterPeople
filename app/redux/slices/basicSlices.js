@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import Endpoint from '@/app/utils/path/Path';
-import { get ,customget ,post } from '@/app/utils/query/Query';
+import { get ,customget ,post ,put} from '@/app/utils/query/Query';
 
 
 export const getGender = createAsyncThunk('get-gender', async () => {
@@ -37,6 +37,17 @@ export const getMaritalStatus = createAsyncThunk('get-married-ststus', async () 
   
   })
 
+  export const getAllCity= createAsyncThunk('get-city-list', async (data) => {
+    try {
+      const response = await customget(Endpoint.getCity,data)
+      return response.data
+    }
+    catch (error) {
+      return error.response.data
+    }
+  
+  })
+
   export const getEmployeeType = createAsyncThunk("get-employee-type", async () => {
     try {
       const response = await get(Endpoint.getEmployeeType);
@@ -55,37 +66,11 @@ export const getMaritalStatus = createAsyncThunk('get-married-ststus', async () 
     }
   });
 
-  export const getEmploymentTypeDetails = createAsyncThunk("get-employee-type-details", async () => {
-    try {
-      const response = await get(Endpoint.getEmployeeType);
-      return response.data;
-    } catch (error) {
-      return error.response.data;
-    }
-  });
-
-  export const createEmploymentType = createAsyncThunk("create-employee-type", async (data) => {
-    try {
-      const response = await post(Endpoint.createEmploymentType,data);
-      return response.data;
-    } catch (error) {
-      return error.response.data;
-    }
-  });
-
-  export const updateEmploymentType = createAsyncThunk("update-employee-type", async (data) => {
-    try {
-      const response = await post(Endpoint.updateEmploymentType,data);
-      return response.data;
-    } catch (error) {
-      return error.response.data;
-    }
-  });
+ 
   
 
 const initialStateValues = {
   isLoading : false ,
-  employmentType : [],
   data : []
 
 }
@@ -97,26 +82,7 @@ export const basicSlice = createSlice({
     action1 : (state, action) => {
      
     }
-  },
-  // extraReducers: (builder) => {
-  //   builder.addCase(getEmploymentTypeDetails.pending, (state, action) => {
-  //     state.isLoading = true
-  //   });
-
-  //   builder.addCase(getEmploymentTypeDetails.fulfilled, (state, action) => {
-  //       state.employmentType = makeTheData(action.payload.payload[0])
-        
-  //   });
-
-  //   builder.addCase(getEmploymentTypeDetails.rejected, (state, action) => {
-     
-  //     state.isLoading = false
-     
-  //   });
-
-  
-
-  // }
+  }
 })
 
 // Action creators are generated for each case reducer function
