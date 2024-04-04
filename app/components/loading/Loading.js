@@ -7,7 +7,8 @@ export default function Loading(props) {
     <div style={{
       display : 'flex',
       justifyContent : 'center',
-      alignItems : 'center'
+      alignItems : 'center',
+      color : props.color
     }}>
     {/* <Image src={loadingImg} width={100} alt="loading" /> */}
     {

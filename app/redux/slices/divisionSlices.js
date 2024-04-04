@@ -81,7 +81,7 @@ export const divisionSlice = createSlice({
         state.isLoading = false,
         state.isError = false,
         state.data = action.payload.payload &&  action.payload.payload[0],
-        state.division = (action.payload.payload[0])
+        state.division = makeTheData(action.payload.payload[0])
         
     });
 
@@ -121,16 +121,12 @@ export default divisionSlice.reducer
 
 
 function makeTheData(data){
-    console.log(data)
     let arr = []
     data.map((data, index) =>
         arr.push(
             {
-              id: data.id,
-               Sl: index + 1,
-              name: data.name,
-              count: data.totalCount,
-              active: data.isActive ? "Active" : Inactive.inactive,
+              id: data.divisionId,
+             name : data.divisionName
             }
         )
     )

@@ -33,14 +33,14 @@ export default function RootLayout({ children }) {
         <link rel="shortcut icon" href="#"></link>
       </head>
 
-      <body id="page-top" suppressHydrationWarning={true}>
+      <body id="page-top" suppressHydrationWarning={true} >
         {/* <NextUIProvider> */}
         <Provider store={store}>
           <PersistGate persistor={persistor}>
             <div id="wrapper">
               <Sidebar />
 
-              <div id="content-wrapper" className="d-flex flex-column">
+              <div id="content-wrapper" className="d-flex flex-column" >
                 <Topbar />
                 <Breadcrumb />
                 {children}

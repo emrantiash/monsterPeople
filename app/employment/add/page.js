@@ -11,6 +11,7 @@ import Input from "@/app/components/input/Input";
 import Button from "@/app/components/button/Button";
 import Select from "@/app/components/select/Select";
 import Label from "@/app/components/label/Label";
+import { Inactive } from "@/app/utils/constant/inactive";
 
 const href = "/employment";
 
@@ -21,7 +22,7 @@ const data = [
   },
   {
     id: false,
-    name: "InActive",
+    name: Inactive.inactive,
   },
 ];
 
@@ -31,11 +32,12 @@ export default function Page() {
   const [val, setVal] = useState("");
   const [isActive, setIsActive] = useState(true);
   const action = useSelector((state) => state.masterReducer.action);
-  const employment = useSelector(
+  const document = useSelector(
     (state) => state.masterReducer.document
   );
 
   const GrandChild = action == "Add" ? "Add New" : "Edit "
+
 
   const changeUserFieldHandler = (e) => {
     setVal(e.target.value);
@@ -46,8 +48,9 @@ export default function Page() {
   },[dispatch])
 
   useEffect(() => {
-    Object.keys(employment).length > 0 && setVal(employment.name);
-  }, [ Object.keys(employment).length > 0]);
+    Object.keys(document).length > 0 && setVal(document.name);
+    Object.keys(document).length > 0 && setIsActive(document.active == 'Active' ? true : false );
+  }, [ Object.keys(document).length > 0]);
 
   const _getStatus = (e) => {
     setIsActive(e.target.value);
@@ -65,7 +68,7 @@ export default function Page() {
     }
     if (action == "Edit" && val != "") {
       let options = {
-        attributeId: employment.id,
+        attributeId: document.id,
         newName: val,
         isActive: isActive,
       };
@@ -96,6 +99,9 @@ export default function Page() {
           {action != "Add" && (
             <Select
               data={data}
+              placement
+              name 
+              text = {isActive ? "Active" : Inactive.inactive}
               style={{ marginBottom: 10 }}
               onchange={_getStatus}
             />

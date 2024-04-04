@@ -9,6 +9,7 @@ import Input from "@/app/components/input/Input";
 import Button from "@/app/components/button/Button";
 import Select from "@/app/components/select/Select";
 import { setbreadcrumb } from "@/app/redux/slices/breadcrumbSlice";
+import { Inactive } from "@/app/utils/constant/inactive";
 
 const href = "/division";
 const data = [
@@ -18,7 +19,7 @@ const data = [
   },
   {
     id: false,
-    name: "InActive",
+    name: Inactive.inactive,
   },
 ];
 
@@ -32,12 +33,16 @@ export default function page() {
 
   const GrandChild = action == "Add" ? "Add New" : "Edit ";
 
+
+  console.log(document)
+
   useEffect(()=>{
     dispatch(setbreadcrumb(["Master","Division",GrandChild]))
   },[dispatch])
 
   useEffect(() => {
     Object.keys(document).length > 0 && setVal(document.name);
+    Object.keys(document).length > 0 && setIsActive(document.isActive);
   }, [ Object.keys(document).length > 0]);
 
   const changeUserFieldHandler = (e) => {
@@ -89,6 +94,9 @@ export default function page() {
         <div>
           {action != "Add" && (
             <Select
+            placement
+            name
+            text = {isActive ? "Active" : Inactive.inactive}
               data={data}
               style={{ marginBottom: 10 }}
               onchange={_getStatus}

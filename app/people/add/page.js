@@ -32,9 +32,9 @@ export default function page() {
       <div style={styles.body}>
         {
          Array.isArray(status) && !status[0] ?
-          // <JobDetails /> 
+          //  <JobDetails /> 
         //  <Documents />
-              <BasicInfo />
+               <BasicInfo />
           :
           Array.isArray(status) && status[0] && !status[1] ?
           <JobDetails /> 

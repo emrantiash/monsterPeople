@@ -1,30 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllCountry } from "@/app/redux/slices/basicSlices";
-import { uploadDocument } from "@/app/redux/slices/employeeSlice";
-import Image from "next/image";
+import {
+  uploadDocumentImage,
+  uploadDocumentInfo,
+} from "@/app/redux/slices/employeeSlice";
 import styles from "./page.style";
 import Input from "@/app/components/input/Input";
 import Button from "@/app/components/button/Button";
 import Label from "@/app/components/label/Label";
-import Select from "@/app/components/select/Select";
-import noImage from "../../assets/img/people/no-image.jpg";
 import { FileUploader } from "react-drag-drop-files";
+import { useRouter } from "next/navigation";
+import Progressbar from "@/app/components/progressbar/Progressbar";
+import commonStyle from "@/app/components/style/Styles";
 
-const fileTypes = ["PDF"];
+const fileTypes = ["PDF", "JPEG", "JPG"];
 
 export default function Documents() {
   const dispatch = useDispatch();
+  const router = useRouter();
   const thisEmployeeName = useSelector(
     (state) => state.employeeReducer.thisEmployeeName
   );
   const thisEmployeeId = useSelector(
     (state) => state.employeeReducer.thisEmployeeId
   );
-  const [image, setImage] = useState("");
-  const [createObjectURL, setCreateObjectURL] = useState("");
-  const [imagePath, setImagePath] = useState("");
-  const [country, setCountry] = useState([]);
+  const [completed, setCompleted] = useState(0);
+
   const [files, setFiles] = useState([]);
   const [file, setFile] = useState("");
   const [userField, setUserField] = useState({
@@ -33,6 +34,20 @@ export default function Documents() {
     validFrom: "",
     expiresOn: "",
   });
+
+  const getHood = () => {
+    let i;
+    setTimeout(() => setCompleted(10), 100);
+    setTimeout(() => setCompleted(20), 2000);
+    setTimeout(() => setCompleted(40), 3000);
+    setTimeout(() => setCompleted(50), 3500);
+    setTimeout(() => setCompleted(60), 4000);
+    setTimeout(() => setCompleted(75), 5000);
+    setTimeout(() => setCompleted(95), 5000);
+    setTimeout(() => setCompleted(100), 8000);
+    setTimeout(()=>setFiles((oldMessages) => [file, ...oldMessages]),8500)
+
+  }
 
   const changeUserFieldHandler = (e) => {
     const { name, value } = e.target;
@@ -43,54 +58,40 @@ export default function Documents() {
     });
   };
 
-  // console.log(userField);
-
-  useEffect(() => {
-    dispatch(getAllCountry()).then(function (e) {
-      e.payload && e.payload.success
-        ? setCountry(e.payload.payload[0])
-        : setCountry([]);
-    });
-  }, [dispatch]);
-
-  const _getCountry = (e) => {};
-
   const handleChange = (event) => {
-    console.log(event);
-    // const myNewFile = new File([event], 'new_name.png', {type: myFile.type});
     setFile(event);
-    // setFile((event) => [event, ...event,name="123"]);
-    setFiles((oldMessages) => [event, ...oldMessages]); // if array
-    // if (event.target.files && event.target.files[0]) {
-    //   const i = event.target.files[0];
-
-    //   setFiles(i);
-    //   // setCreateObjectURL(URL.createObjectURL(i));
-    // }
+    // setFiles((oldMessages) => [event, ...oldMessages]);
   };
-
-  console.log(file)
 
   const _uploadDocument = () => {
+    setCompleted(0)
+    var option;
 
-    let option = {
-      file ,
-      fileInfo: {
-        employeeId: 0,
-        documentCode: "1334",
-        issuedOn: "2024-04-01",
-        validFrom: "2024-04-01",
-        expiresOn: "2024-04-01",
-      },
-    };
-    // let file = file
-    // const parentObj = [fileInfo,file ]
-    dispatch(uploadDocument(option)).then(function (e) {
-      console.log(e);
+    const body = new FormData();
+    body.append("file", file);
+    console.log(body);
+
+    dispatch(uploadDocumentImage(body)).then(function (e) {
+      e.payload &&
+        e.payload.success &&
+        ((option = {
+          docEntryId: e.payload.payload[0],
+          employeeId: thisEmployeeId,
+          documentCode: userField.docNumber,
+          issuedOn: userField.issueOn,
+          validFrom: userField.validFrom,
+          expiresOn: userField.expiresOn,
+        }),
+          dispatch(uploadDocumentInfo(option)).then(function (e) {
+
+            e.payload &&
+              e.payload.success && (getHood())
+
+          }));
     });
   };
 
-  const _submit = () => {};
+  const _submit = () => { };
   return (
     <main>
       <div className="row">
@@ -109,13 +110,14 @@ export default function Documents() {
                 justifyContent: "center",
               }}
             >
-              {Array.isArray(files) &&
+              
+             
+              {Array.isArray(files)  &&
                 files.length > 0 &&
                 files.map((data, index) => (
                   <div
                     key={index}
                     style={{
-                      // backgroundColor : 'yellow',
                       display: "flex",
                       flexDirection: "row",
                       marginRight: 5,
@@ -123,14 +125,17 @@ export default function Documents() {
                   >
                     <div
                       style={{
+                        backgroundColor: '',
+                        padding: 5,
                         display: "flex",
                         justifyContent: "center",
                         flexDirection: "column",
                         alignItems: "center",
+                        border: "3px solid #f8f8f8",
                       }}
                     >
-                      <i className="fas fa-file-word fa-4x" />
-                      <div className="text-table">{data.name}</div>
+                      <div style={{ color: 'tomato' }}><i className="fas fa-file-word fa-4x" /></div>
+                      <div className="text-table">{data.name.substring(0, 9)}</div>
                     </div>
                   </div>
                 ))}
@@ -145,15 +150,10 @@ export default function Documents() {
               }}
             >
               <div style={styles.documentMergin}>
-                <i className="fas fa-folder fa-4x "></i>
+               <div style={{color:'#f6c23e'}}><i className="fas fa-folder fa-4x "></i></div> 
                 <div className="text-xs" style={styles.bottom}>
                   Please ensure each file size should not exceed 5KB.
                 </div>
-
-                {/* <Button
-                  class="btn btn-outline-success text-table"
-                  text="Upload "
-                /> */}
               </div>
               <div>
                 <div
@@ -163,16 +163,23 @@ export default function Documents() {
                     justifyContent: "center",
                   }}
                 >
-                  {/* <Button
-                    class="btn btn-success btn-lg text-table"
-                    text="Save and Finish"
-                    onclick={_submit}
-                  />{" "} */}
+                  &nbsp;
+                  {
+                    Array.isArray(files) && files.length > 0 &&
+                    <Button
+                      class="btn btn-success btn-lg text-table"
+                      text="Complete Uploading"
+                      onclick={() => window.location.href = '/people'}
+                    />
+                  }
+
                   &nbsp;
                   <Button
                     class="btn btn-outline-success btn-lg text-table"
                     text="Will do later"
+                    onclick={() => window.location.href = '/people'}
                   />
+
                 </div>
               </div>
             </div>
@@ -259,10 +266,16 @@ export default function Documents() {
                   <div className="row" style={styles.docBox}>
                     <div className="col-6">
                       <Button
-                        class="btn btn-success"
+                        class="btn btn-success text-table"
                         text="Upload Document"
                         onclick={_uploadDocument}
                       />
+
+                      &nbsp;
+                      {
+                completed > 0 && completed < 100 && 
+                <Progressbar completed={completed} />
+              }
                     </div>
                     <div className="col-6">{/* */}</div>
                   </div>

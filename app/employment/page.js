@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { setbreadcrumb } from "@/app/redux/slices/breadcrumbSlice";
-import { getEmploymentTypeDetails } from "../redux/slices/employementSlice";
+import { getEmploymentType } from "../redux/slices/employementSlice";
 import {
   saveDocument,
   getActionType,
@@ -14,33 +14,22 @@ import Button from "@/app/components/button/Button";
 import Loading from "@/app/components/loading/Loading";
 import { Inactive } from "../utils/constant/inactive";
 
-const thead = [
-  {
-    id: 1,
-    name: "Employment Type",
-  },
-  {
-    id: 2,
-    name: "No. of Employees",
-  },
-  
-  {
-    id: 3,
-    name: "Status",
-  }
- 
-];
+
 
 export default function Page() {
   const dispatch = useDispatch();
   const router = useRouter();
-  const loading = useSelector((state)=>state.employementReducer.isLoading)
+  const loading= useSelector((state)=>state.employementReducer.isLoading)
   const dataset = useSelector((state)=>state.employementReducer.employmentType);
+  const tail = "isActiveOnly=false"
 
   useEffect(() => {
     dispatch(setbreadcrumb(["Master", "Employment Type"]));
-    dispatch(getEmploymentTypeDetails())
+    dispatch(getEmploymentType(tail))
+    // Array.isArray(dataset) && dataset.length > 0 && setLoading(false)
   }, [dispatch]);  
+
+  console.log(loading,dataset)
 
   const _tableOptions = (row) => {
     dispatch(saveDocument(row));
@@ -62,7 +51,7 @@ export default function Page() {
           style={{ color: "green", height: 30, cursor: "pointer" }}
         >
           <Link
-            href="/master/employment/add"
+            href="/employment/add"
             onClick={() => _saveActionType("Add")}
           >
             <Button class="btn btn-success text-table" text ="Add New" 
@@ -74,6 +63,7 @@ export default function Page() {
       <div className="row">
         <div className="col-1"></div>
         <div className="col-8">
+          
            {/* <!-- DataTales Example --> */}
            <div className="card shadow mb-4">
               <div className="card-header py-3">
@@ -83,6 +73,7 @@ export default function Page() {
               </div>
               <div className="card-body">
                 <div className="table-responsive">
+                <Loading isLoading={loading}/>
                   {
 
                     <table
@@ -136,7 +127,7 @@ export default function Page() {
         </div>
         <div className="col-2"></div>
       </div>
-      <Loading isLoading={loading}/>
+     
     </div>
   );
 }

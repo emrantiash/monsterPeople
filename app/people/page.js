@@ -66,8 +66,6 @@ export default function Page() {
 
   const employee = useSelector((state) => state.employeeReducer.data);
 
-  console.log(dataset);
-
   useEffect(() => {
     dispatch(setbreadcrumb(["People", "Employee List "]));
 
@@ -242,7 +240,7 @@ export default function Page() {
                                     >
                                       <div className="progress">
                                         <div
-                                          className="progress-bar"
+                                          className="progress-bar progress-bar-striped bg-success"
                                           role="progressbar"
                                           style= {{width: (Math.round(data.stage*100/_maxValue)) +"%" }}
                                           aria-valuenow="25"

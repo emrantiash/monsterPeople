@@ -1,15 +1,16 @@
-import React from "react";
+import React,{useEffect,useState} from "react";
 import Link from "next/link";
 import useIsAccess from "@/app/lib/hooks/isAccess";
 
 export default function Sidebar() {
     const isAccess = useIsAccess()
+ 
     // console.log(isAccess)
   return (
     <div
       style={{
         display: "flex",
-        flexDirection: "row",
+        flexDirection: "row"
       }}
     >
       <ul
@@ -168,7 +169,7 @@ export default function Sidebar() {
           >
             <div className="bg-white py-2 collapse-inner rounded">
               {/* <h6 className="collapse-header">Login Screens:</h6> */}
-              <a className="collapse-item" href="/employment">
+              <a className="collapse-item" href="/employment" >
                 <span style={{ color: "", size: 30 }}>
                   <i className="fas fa-user-friends"></i>
                 </span>

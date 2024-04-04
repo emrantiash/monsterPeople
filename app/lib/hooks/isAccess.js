@@ -4,7 +4,8 @@ import { useSelector } from 'react-redux';
 
 export default function useIsAccess() {
     const [isHrs,setIsHrs] = useState(true)
-    const [isPayroll,setIsPayroll] = useState(true)
+    const [isPayroll,setIsPayroll] = useState(false)
+    const [isAttendance,setIsAttendance] = useState(false)
     // const data = useSelector((state) => state.loginReducer.login)
     // useEffect(() => {
     //     if(cookieCutter.get(cookiesNames.LOG_IN) ||  data){
@@ -15,5 +16,5 @@ export default function useIsAccess() {
     // },[data]);
 
     // return [isLogin];
-    return [isHrs,isPayroll] ;
+    return [isHrs,isPayroll,isAttendance] ;
 }

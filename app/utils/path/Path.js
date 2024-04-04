@@ -4,7 +4,7 @@ const Endpoint = {
   maritalStatus: ["static-info/get-marital-status-list"],
   getCountry: ["static-info/get-country-list"],
   getCity : ["static-info/get-city-list-by-country?"],
-  getEmployeeType : ['static-info/get-employee-type-list'],
+  getEmployeeType : ['static-info/get-employee-type-list?'],
   getWorkLocation : ['static-info/get-job-work-location-list'],
   getEmployee: ["employee/employee-list"],
   postEmployeeBasicInfo: ["employee/insert-employee-basic-info"],
@@ -14,6 +14,7 @@ const Endpoint = {
   designationList : ["designation/get-designation-list"],
   devisionWithDepartment : ['division/get-division-list-with-departments'],
   uploadDocument : ['file-util/upload-employee-document'],
+  uploadDocumentInfo : ['file-util/update-employee-document-info'],
 
   //  master 
   createEmploymentType : ['static-info/create-employee-type'],

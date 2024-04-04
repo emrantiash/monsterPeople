@@ -7,10 +7,11 @@ import {
 } from "@/app/redux/slices/employeeSlice";
 import { getDivision, getDepartment } from "@/app/redux/slices/divisionSlices";
 import {
-  getEmployeeType,
   getWorkLocation,
 } from "@/app/redux/slices/basicSlices";
+import { getEmploymentType } from "@/app/redux/slices/employementSlice";
 import { postEmployeeJobDetails } from "@/app/redux/slices/employeeSlice";
+import { useRouter } from "next/navigation";
 import Label from "@/app/components/label/Label";
 import Input from "@/app/components/input/Input";
 import Select from "@/app/components/select/Select";
@@ -41,6 +42,7 @@ const _mark = false;
 const black = true;
 
 export default function JobDetails() {
+  const router = useRouter();
   const dispatch = useDispatch();
   const [isSubmit, setIsSubmit] = useState(false);
   const [designation, setDesignation] = useState([]);
@@ -55,27 +57,22 @@ export default function JobDetails() {
   const thisEmployeeName = useSelector(
     (state) => state.employeeReducer.thisEmployeeName
   );
-  const thisEmployeeID = useSelector(
-    (state) => state.employeeReducer.thisEmployeeId
-  );
+  const thisEmployeeID = useSelector((state) => state.employeeReducer.thisEmployeeId);
   const division = useSelector((state) => state.divisionReducer.division);
-  const department = useSelector(
-    (state) =>
-      state.divisionReducer.department && state.divisionReducer.department
-  );
+  const department = useSelector((state) =>state.divisionReducer.department && state.divisionReducer.department);
+  const tail = "isActiveOnly=true"
 
-  console.log(department);
   const [userField, setUserField] = useState({
     employeeCode: "",
     dateOfJoining: "",
     confirmationDate: "",
   });
 
-  console.log(thisEmployeeID);
+  
 
   useEffect(() => {
     dispatch(getDivision());
-    dispatch(getEmployeeType()).then(function (e) {
+    dispatch(getEmploymentType(tail)).then(function (e) {
       e.payload && e.payload.success
         ? setEmployeeType(e.payload.payload[0])
         : setEmployeeType([]);
@@ -129,13 +126,13 @@ export default function JobDetails() {
       thisEmployeeID == "" ||
       userField.employeeCode == "" ||
       userField.dateOfJoining == "" ||
-      userField.confirmationDate ==""||
+      userField.confirmationDate == "" ||
       selectedDivision == "" ||
       selectedDepartment == "" ||
       selectedDesignation == "" ||
       selectedType == "" ||
       selectedWorkLocation == "";
-      console.log(isEmpty)
+    console.log(isEmpty);
     if (!isEmpty) {
       let options = {
         employeeId: parseInt(thisEmployeeID),
@@ -148,7 +145,7 @@ export default function JobDetails() {
         employmentTypeId: parseInt(selectedType),
         workLocationId: parseInt(selectedWorkLocation),
       };
-      console.log(options)
+      console.log(options);
 
       dispatch(postEmployeeJobDetails(options)).then(function (e) {
         e.payload &&
@@ -193,7 +190,7 @@ export default function JobDetails() {
             <div className="col-md-4">
               <Label title="Employee Type" />
               <Select
-               error={isSubmit && selectedType == ""}
+                error={isSubmit && selectedType == ""}
                 placement
                 data={employeeType}
                 onchange={_getEmployeeType}
@@ -204,7 +201,7 @@ export default function JobDetails() {
             <div className="col-md-4">
               <Label title="Date Of Joining" />
               <Input
-              error={isSubmit && userField.dateOfJoining == ""}
+                error={isSubmit && userField.dateOfJoining == ""}
                 type="date"
                 placeholder="dateOfJoining"
                 name="dateOfJoining"
@@ -225,14 +222,17 @@ export default function JobDetails() {
           <div className="row" style={styles.bobyInnerRow}>
             <div className="col-md-4">
               <Label title="Division" />
-              <Select 
-               error={isSubmit && selectedDivision == ""}
-              placement data={division} onchange={_getDepartmentName} />
+              <Select
+                error={isSubmit && selectedDivision == ""}
+                placement
+                data={division}
+                onchange={_getDepartmentName}
+              />
             </div>
             <div className="col-md-4">
               <Label title="Department" />
               <Select
-              error={isSubmit && selectedDepartment == ""}
+                error={isSubmit && selectedDepartment == ""}
                 placement
                 data={selectedDivision != 0 && department[0].departmentList}
                 onchange={_saveDepartment}
@@ -243,7 +243,7 @@ export default function JobDetails() {
             <div className="col-md-4">
               <Label title="Work Location" />
               <Select
-              error={isSubmit && selectedWorkLocation == ""}
+                error={isSubmit && selectedWorkLocation == ""}
                 placement
                 data={workLocation}
                 onchange={_saveWorkLocation}
@@ -256,7 +256,7 @@ export default function JobDetails() {
             <div className="col-md-4">
               <Label title="Designation" />
               <Select
-              error={isSubmit && selectedDesignation == ""}
+                error={isSubmit && selectedDesignation == ""}
                 placement
                 data={designation}
                 onchange={_saveDesignation}
@@ -274,6 +274,7 @@ export default function JobDetails() {
               <Button
                 class="btn btn-outline-success btn-lg text-table"
                 text="Cancel"
+                onclick={() => window.location.href = '/people'}
               />
             </div>
           </div>

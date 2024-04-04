@@ -12,6 +12,7 @@ import {
 import Button from "@/app/components/button/Button";
 import Table from "@/app/components/table/Table";
 import Loading from "../components/loading/Loading";
+import { Inactive } from "../utils/constant/inactive";
 
 
 
@@ -94,14 +95,14 @@ export default function page() {
                           dataset.map((data,index)=>
                           <tr className="text-table" key={index} 
                           style={{
-                            backgroundColor : !data.isActive && '#f3f3f3',
-                            color : !data.isActive && 'pink'
+                            backgroundColor : !data.isActive && Inactive.background,
+                            color : !data.isActive && Inactive.color
                           }}
                           >
                           <td>{index + 1}</td>
                           <td>{data.name}</td>
                           <td>{data.parentName}</td>
-                          <td>{data.isActive ? "Active" : "In-Active"}</td>
+                          <td>{data.isActive ? "Active" : Inactive.inactive}</td>
                           <td onClick={()=>_tableOptions(data)} style={{cursor : 'pointer'}}>Edit</td>
                           </tr>
                           

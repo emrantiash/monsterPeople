@@ -47,14 +47,22 @@ export const postEmployeeJobDetails = createAsyncThunk("post-employee-job", asyn
   }
 });
 
-export const uploadDocument = createAsyncThunk('upload-employees-docs', async (data) => {
-  console.log("====reducer===",data)
+export const uploadDocumentImage = createAsyncThunk('upload-employees-docs-image', async (data) => {
   try {
     const response = await post(Endpoint.uploadDocument, data)
     return response.data
   }
   catch (error) {
-    console.log("====error=====")
+    return error.response.data
+  }
+})
+
+export const uploadDocumentInfo = createAsyncThunk('upload-employees-docs-info', async (data) => {
+  try {
+    const response = await post(Endpoint.uploadDocumentInfo, data)
+    return response.data
+  }
+  catch (error) {
     return error.response.data
   }
 })
