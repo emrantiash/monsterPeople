@@ -1,37 +1,37 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { setbreadcrumb } from "../redux/slices/breadcrumbSlice";
 import { getActive, setThisIndex } from "../redux/slices/salaryComponentSlice";
 import Button from "../components/button/Button";
-import userImage from "../assets/img/myinfo/user.svg";
-import styles from "./layout.style";
+import Leftpanel from "./leftpanel";
+
 
 const _color = "#37B5A7";
+const active = "nav-link active"
 
 export default function MyinfoLayout({ children }) {
   const dispatch = useDispatch();
-  const { active, index } = useSelector(
-    (state) => state.salaryComponentReducer
-  );
+  // const { active, index } = useSelector((state) => state.salaryComponentReducer);
+  const [index,setIndex] = useState(0)
 
   useEffect(() => {
-    dispatch(getActive());
+    // dispatch(getActive());
     dispatch(setbreadcrumb(["My-Info"]));
   }, [dispatch]);
 
   const setMyIndex = (val) => {
     console.log(val);
-    dispatch(setThisIndex(val));
+    // dispatch(setThisIndex(val));
+    setIndex(val)
   };
   return (
     <div style={{ marginTop: -10 }}>
       <div className="card ">
         <div className="row" style={{}}>
           <div
-            className="col-2 "
+            className="col-2"
             style={{
               backgroundColor: "#37B5A7",
               height: 163,
@@ -49,61 +49,8 @@ export default function MyinfoLayout({ children }) {
                   alignItems: "center",
                 }}
               >
-                <div
-                  className="card-body"
-                  style={{
-                    //  height: 800,
-                    // width : 'auto',
-                  backgroundColor: "#f8f8f8",
-                    // backgroundColor : '#37B5A7',
-                    marginTop: 10,
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    flexDirection: "column",
-                    borderRadius : 8,
-                  }}
-                >
-                  <div style={{ backgroundColor: "" }}>
-                    <Image
-                      src={userImage}
-                      height={"100%"}
-                      width={150}
-                      style={{
-                        backgroundColor: "",
-                        position: "relative",
-                        display: "flex",
-                        alignItems: "center",
-                        borderRadius : 150/2,
-                      }}
-                    />
-                  </div>
-                  {/* left columnn text */}
-                  <div className="" style={styles.sideDivRoot}>
-                    <div style={styles.sideDiv}>
-                      <i className="fas fa-home"></i>
-                      &nbsp;
-                      <div className="text-xs">xx-xxxxxxx</div>
-                    </div>
-                    <div style={styles.sideDiv}>
-                      <i className="fas fa-home"></i>
-                      &nbsp;
-                      <div className="text-xs">xx-xxxxxxx</div>
-                    </div>
-                    <div style={styles.sideDiv}>
-                      <i className="fas fa-home"></i>
-                      &nbsp;
-                      <div className="text-xs">xx-xxxxxxx</div>
-                    </div>
-                    <hr />
-                    <div style={{}}>
-                      <div className="text-xs">Hire Date</div>
-                      <div className="text-xs">23 Sept,2010</div>
-                      <div className="text-xs">10 years</div>
-                    </div>
-                    <hr />
-                  </div>
-                </div>
+                <Leftpanel />
+                {/*  */}
               </div>
 
               <div className="col-1"></div>

@@ -20,39 +20,48 @@ const thead = [
 
 const tbody = [
   {
+    id:1,
     title: "Basic",
     value: 60000,
   },
   {
+    id:2,
     title: "House Rent",
     value: 40000,
   },
   {
+    id:3,
     title: "Medical",
     value: 10000,
   },
   {
+    id:4,
     title: "Conveyance",
     value: 3500,
   },
   {
+    id:5,
     title: "Total Gross",
     value: 113500,
     // background : true
   },
   {
+    id:6,
     title: "Addition",
     value: 8000,
   },
   {
+    id:7,
     title: "Deduction",
     value: 4000,
   },
   {
+    id:8,
     title: "Tax",
     value: 4000,
   },
   {
+    id:9,
     title: "Net Pay",
     value: 97500,
   },

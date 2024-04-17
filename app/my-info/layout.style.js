@@ -14,7 +14,12 @@ const styles = {
     alignItems: "space-around",
     
   },
-
+  makeSpace : {
+    letterSpacing:1.0
+  },
+  fellGap : {
+    marginBottom : 5
+  },
 //   page 
 personalMargin : {
     marginBottom : 15 

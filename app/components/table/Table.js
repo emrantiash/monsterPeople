@@ -40,15 +40,15 @@ const Table = (props) => {
             <tr
               key={index}
               style={{
-                 lineHeight: 2,
-                backgroundColor:
-                  row.active == "In-Active"
-                    ? "#7283ac"
-                    : row.title == "Total Gross"
-                    ? "#efefef"
-                    : row.title == "Net Pay" && "#efefef",
-                cursor: props.options && "pointer",
-                color : row.active == "In-Active"  && '#fff'
+                lineHeight: 2,
+                // backgroundColor:
+                //   row.active == "In-Active"
+                //     ? "#7283ac"
+                //     : row.title == "Total Gross"
+                //     ? "#efefef"
+                //     : row.title == "Net Pay" && "#efefef",
+                // cursor: props.options && "pointer",
+                // color : row.active == "In-Active"  && '#fff'
               }}
               onClick={props.options ? () => props.makeOption(row) : null}
             >

@@ -110,7 +110,7 @@ export default function page() {
   return (
     <div className="row">
       <div className="col-1"></div>
-      <div className="col-3">
+      <div className="col-2">
         <div>
           <Label title="Select Division" required />
           <Select
@@ -149,7 +149,7 @@ export default function page() {
           }}
         >
           <Button
-            class="btn btn-success"
+            class="btn btn-success "
             text={action == "Add" ? "Submit" : "Update"}
             width={150}
             onclick={_submit}

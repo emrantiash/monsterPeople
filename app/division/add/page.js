@@ -82,7 +82,7 @@ export default function page() {
   return (
     <div className="row">
       <div className="col-1"></div>
-      <div className="col-4">
+      <div className="col-2">
         <div>
           <Label title="Name Of The Division" />
           <Input
@@ -110,14 +110,14 @@ export default function page() {
           }}
         >
           <Button
-            class="btn btn-success"
+            class="btn btn-success "
             text={action == "Add" ? "Submit" : "Update"}
-            width={150}
+            width={120}
             onclick={_submit}
           />
           &nbsp;
           <Button
-            class="btn btn-outline-info"
+            class="btn btn-outline-info "
             text="Cancel "
             onclick={_cancel}
           />

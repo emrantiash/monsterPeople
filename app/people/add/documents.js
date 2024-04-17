@@ -69,7 +69,6 @@ export default function Documents() {
 
     const body = new FormData();
     body.append("file", file);
-    console.log(body);
 
     dispatch(uploadDocumentImage(body)).then(function (e) {
       e.payload &&

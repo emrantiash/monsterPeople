@@ -57,7 +57,6 @@ export default function Page() {
   };
 
   const _submit = () => {
-    console.log("----",action)
     if (action == "Add" && val != "") {
       let options = {
         attributeName: val,
@@ -86,7 +85,7 @@ export default function Page() {
   return (
     <div className="row">
       <div className="col-1"></div>
-      <div className="col-4">
+      <div className="col-2">
         <div>
           <Label title="Employee Type" />
           <Input
@@ -114,13 +113,13 @@ export default function Page() {
           }}
         >
           <Button
-            class="btn btn-success"
+            class="btn btn-success "
             text={action == "Add" ? "Submit" : "Update" } 
-            width={150}
+            width={120}
             onclick={_submit}
           />
           &nbsp;
-          <Button class="btn btn-outline-info" text="Cancel " onclick={_cancel} />
+          <Button class="btn btn-outline-info " text="Cancel " onclick={_cancel} />
         </div>
       </div>
     </div>

@@ -179,7 +179,7 @@ export default function Page() {
                       cellSpacing="0"
                     >
                       <thead>
-                        <tr>
+                        <tr className="text-table">
                           <th>Sl.</th>
                           <th>Emp#</th>
                           <th>Emp Information</th>

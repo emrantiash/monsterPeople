@@ -50,6 +50,7 @@ export default function BasicInfo() {
   const [selectedEthnicity, setSelectedEthnicity] = useState("");
   const [isPortalAccessEnabled, setIsPortalAccessEnabled] = useState(false);
   const [isUserStatutory, setIsUserStatutory] = useState(false);
+  const [errorMsg,setErrorMsg] = useState("")
   const [userField, setUserField] = useState({
     firstName: "",
     middleName: "",
@@ -65,19 +66,21 @@ export default function BasicInfo() {
   });
 
   const getHood = () => {
-     let i ;
+    console.log("=====hood=====")
+    let i;
     setTimeout(() => setCompleted(10), 1000);
     setTimeout(() => setCompleted(20), 2000);
     setTimeout(() => setCompleted(40), 3000);
     setTimeout(() => setCompleted(80), 5000);
+    setTimeout(() => setCompleted(95), 6500);
     setTimeout(() => setCompleted(100), 8500);
     // for(i=0;i<100 ; i++){
     //   setTimeout(() => setCompleted(i), 1000 );
-    //   i = i<=90 && i+10*Math.random()
+    //   i = i<=90 && i+10*Math.random() <= 100 && i*Math.random()
     // }
   }
 
- 
+
 
   const changeUserFieldHandler = (e) => {
     // console.log(e.target.value);
@@ -108,7 +111,7 @@ export default function BasicInfo() {
     }
     if (name == "nid") {
       setNidError(false);
- 
+
     }
     setUserField({
       ...userField,
@@ -145,7 +148,8 @@ export default function BasicInfo() {
   };
 
   const _uploadImage = () => {
-  setCompleted(0)
+    setErrorMsg("")
+    setCompleted(0)
     setLoading(true);
     if (image != "") {
       setLoading(true);
@@ -154,15 +158,21 @@ export default function BasicInfo() {
 
       dispatch(imageUpload(body)).then(function (e) {
 
-        getHood()
-        setImagePath(e.payload.payload[0]);
-      });
-
-      setTimeout(() => {
-        setLoading(false);
-      }, 10000);
+        e.payload ? (
+          console.log("success"),
+          getHood(),
+          setImagePath(e.payload.payload[0]),
+          setTimeout(() => {
+            setLoading(false);
+          }, 10000)
+        )  :
+        (
+          setErrorMsg("Network error")
+        )
+      }); 
     }
   };
+
 
 
   const _getGender = (e) => {
@@ -246,7 +256,7 @@ export default function BasicInfo() {
       });
     } else {
       setLoading(false);
-      setError(true);
+      // setError(true);
       setErrorMsg("Please Select All Required Fields");
     }
   };
@@ -340,14 +350,14 @@ export default function BasicInfo() {
                         borderRadius: 5,
                       }}
                     >
-                      {/* `${completed}%` */}
-                      {/* <Loading isLoading={loading} color="red" /> */}
-                      {/* {
-                        loading &&  */}
 
                       {
-                        loading &&
-                       <Progressbar completed={completed} />
+                        loading && (
+                          <>
+                          <div className="text-xs">{errorMsg}</div>
+                        <Progressbar completed={completed} />
+                        </>
+                        )
                       }
 
 

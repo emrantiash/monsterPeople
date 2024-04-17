@@ -84,7 +84,7 @@ export default function Page() {
   return (
     <div className="row">
       <div className="col-1"></div>
-      <div className="col-3">
+      <div className="col-2">
         <div>
           <Label title="Name Of The Designation " />
           <Input
@@ -118,7 +118,7 @@ export default function Page() {
             onclick={_submit}
           />
           &nbsp;
-          <Button class="btn btn-outline-link" text="Cancel " onclick={_cancel} />
+          <Button class="btn btn-outline-info" text="Cancel " onclick={_cancel} />
            {/* <a href="/designation" className="text-xs">Cancel</a> */}
         </div>
       </div>

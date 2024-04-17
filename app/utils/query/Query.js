@@ -1,15 +1,15 @@
 import Network from "../network/Network";
 import axios from "axios";
-// import cookieCutter from 'cookie-cutter';
-// import cookiesNames from '../constant/Constant';
-// const CryptoJS = require("crypto-js");
-// import Utf8 from 'crypto-js/enc-utf8';
+import cookieCutter from 'cookie-cutter';
+import cookiesNames from "../constant";
+const CryptoJS = require("crypto-js");
+import Utf8 from 'crypto-js/enc-utf8';
 
 export default function getHeaderFunction() {
   try {
-    // const decrypted = CryptoJS.AES.decrypt(cookieCutter.get(cookiesNames.HOW_THIS_MEASUREMENT_IS), process.env.NEXT_PUBLIC_TITLE).toString(Utf8);
-    const decrypted =
-      "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XHJcbiAgXCJ1c2VyTmFtZVwiIDogXCJ0aWFzaEBhZG1pbi5jb21cIixcclxuICBcImVtcGxveWVlSWRcIiA6IDIsXHJcbiAgXCJjb21wSWRcIiA6IDEsXHJcbiAgXCJzdWJDb21wSWRcIiA6IDEsXHJcbiAgXCJyb2xlXCIgOiBcImFkbWluXCIsXHJcbiAgXCJhdXRob3JpdGllc1wiIDogWyBdXHJcbn0iLCJpYXQiOjE3MTE5NTYyODIsImV4cCI6MTc3MjQzNjI4Mn0.KLYoaKSonup-vgmjtDRf0DOK3mYP3OSkgpEnr1UlqSUFiB-ETzkEF-MDpDQq9JBOI2eqCturXRRvO4FVP02esg";
+      const decrypted = CryptoJS.AES.decrypt(cookieCutter.get(cookiesNames.HOW_THIS_MEASUREMENT_IS), process.env.NEXT_PUBLIC_TITLE).toString(Utf8);
+    // const decrypted =
+    //   "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XHJcbiAgXCJ1c2VyTmFtZVwiIDogXCJ0aWFzaEBhZG1pbi5jb21cIixcclxuICBcImVtcGxveWVlSWRcIiA6IDIsXHJcbiAgXCJjb21wSWRcIiA6IDEsXHJcbiAgXCJzdWJDb21wSWRcIiA6IDEsXHJcbiAgXCJyb2xlXCIgOiBcImFkbWluXCIsXHJcbiAgXCJhdXRob3JpdGllc1wiIDogWyBdXHJcbn0iLCJpYXQiOjE3MTE5NTYyODIsImV4cCI6MTc3MjQzNjI4Mn0.KLYoaKSonup-vgmjtDRf0DOK3mYP3OSkgpEnr1UlqSUFiB-ETzkEF-MDpDQq9JBOI2eqCturXRRvO4FVP02esg";
     const headers = {
       Authorization: "Bearer " + decrypted,
       Accept: "application/json",
